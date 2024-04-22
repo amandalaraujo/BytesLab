@@ -1,0 +1,146 @@
+body {
+  font-family: 'Outfit', Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(
+    to left,
+    #f7e4e4,
+    #ffd2df
+  );
+  text-align: center;
+}
+
+form {
+  background: rgba(0, 0, 0, 0.6);
+  margin-left: auto;
+  padding: 78px 0;
+  border-radius: 15px 0px 0px 15px;
+  color: aliceblue;
+
+}
+
+legend {
+  padding: 10px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.inputBox {
+  position: relative;
+  padding: 15px;
+  text-align: center;
+}
+
+.inputUser {
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 5px;
+  border-bottom: 1px solid aliceblue;
+  outline: none;
+  color: aliceblue;
+  font-size: 15px;
+  width: 95%;
+  letter-spacing: 1px;
+}
+
+.labelinput {
+  position: absolute;
+  top: 0px;
+  left: 14px;
+  pointer-events: none;
+  transition: 0.5s;
+  padding-top: 10px;
+}
+
+.inputUser:focus ~ .labelinput,
+.inputUser:valid ~ .labelinput {
+  top: -20px;
+  font-size: 15px;
+  color: #A27758;
+  text-align: center;
+}
+
+a {
+  color: #B87743;
+}
+
+#submit {
+  background: linear-gradient(to right, rgb(0, 92, 197), rgba(90, 20, 220));
+  width: min-content;
+  border: none;
+  padding: 15px;
+  color: aliceblue;
+  font-size: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#submit:hover {
+  background: linear-gradient(
+    to right,
+    rgba(0, 92, 197, 0.719),
+    rgba(90, 20, 220, 0.736)
+  );
+}
+
+
+* {
+  margin:0;
+  padding: 0;
+}
+
+ 
+.login{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* isso aqui é para definir o tamanho da tela */
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.centralizer {
+  display: flex;
+  max-width: 1200px;
+  padding: 2rem;
+} 
+
+.login-form{
+  display: flex;
+   flex: 1;
+  flex-direction: column ;
+  justify-content: center;
+  align-items: center;
+  gap:30px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+  rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+  rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.imglogin-img {
+  object-fit: cover;
+  /* object fit é pra ir cortando a imagem */
+  width: 100%;
+  height: 100%;
+  border-radius: 0 15px 15px 0 ;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+  rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+  rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.imglogin{
+  display: flex;
+  flex: 1;
+}
+
+@media(max-width: 900px){
+  img {
+    display: none;
+  }
+
+  .login-form{
+    width: 100%;
+    border-radius: 10px 10px;
+    flex: unset;
+    padding: 20px;
+  }
+}
