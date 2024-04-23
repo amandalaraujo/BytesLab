@@ -29,7 +29,7 @@
   // echo "Nome: $nome <br>";
   /////////////////////////////////////
 
-  include_once('config.php');
+  include_once('C:\xampp\htdocs\BytesLab\banco\config.php');
 
   if(isset($_POST['submit'])) {
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
@@ -38,10 +38,6 @@
     $tel = isset($_POST['telefone']) ? $_POST['telefone'] : '';
     $sexo = isset($_POST['genero']) ? $_POST['genero'] : '';
     $datanasc = isset($_POST['dataNasc']) ? $_POST['dataNasc'] : '';
-    $cidade = isset($_POST['cidade']) ? $_POST['cidade'] : '';
-    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
-    $end = isset($_POST['endereco']) ? $_POST['endereco'] : '';
-  
 
   $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha,telefone,sexo,data_nasc,cidade,estado,endereco) VALUES('$nome','$email','$senha','$tel','$sexo','$datanasc','$cidade','$estado','$end')");
 
@@ -64,65 +60,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro | Joelma Nail Designer</title>
-  <link rel="stylesheet" href="cad.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&family=Outfit:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="formulario.css">
 </head>
 
 <body>
-  <form action="<?= $_SERVER["PHP_SELF"];?>" method="post">
-    <fieldset>
-      <legend><b>Cadastro de Clientes</b></legend>
-      <br>
-      <div class="inputBox">
-        <input type="text" name="nome" id="nome" class="inputUser" required>
-        <label for="nome" class="labelinput">Nome Completo</label>
-      </div>
-      <br>
+  <form class="form" action="<?= $_SERVER["PHP_SELF"];?>" method="post">
+  <p class="title">Cadastro</p>
+    <p class="message">Cadastre-se para realizar o seu agendamento. </p>
+       
+    <label>
+        <input class="input" type="text" id="nome" placeholder="" required="">
+        <span>Nome Completo</span>
+    </label>
+    <label>
+        <input class="input" type="date" id="data_nasc" placeholder="" required="">
+        <span>Data Nascimento</span>
+    </label>
+    <label>
+        <input class="input" type="text" id="telefone" placeholder="" required="">
+        <span>Telefone</span>
+    </label>     
+    <label>
+        <input class="input" type="text" id="email" placeholder="" required="">
+        <span>Email</span>
+    </label> 
 
-
-      <div class="inputBox">
-        <input type="text" name="email" id="email" class="inputUser" required>
-        <label for="email" class="labelinput">E-mail</label>
-      </div>
-      <br>
-
-      <div class="inputBox">
-        <input type="password" name="senha" id="senha" class="inputUser" required>
-        <label for="senha" class="labelinput">Senha</label>
-      </div>
-      <br>
-
-      <div class="inputBox">
-        <input type="text" name="telefone" id="telefone" class="inputUser" required>
-        <label for="telefone" class="labelinput">Telefone</label>
-      </div>
-      <br>
-      <p>Sexo: </p>
-        <input type="radio" name="genero" value="feminino" id="feminino" requierd>
-        <label for="feminio">feminino</label>
-        <input type="radio" name="genero" value="masculino" id="masculino" requierd>
-        <label for="feminio">Masculino</label>
-        <input type="radio" name="genero" value="genero " id="genero" requierd>
-        <label for="feminio">Outro: </label>
-        <br><br>
-
-        <!-- radio ok -->
-      <div>
-        <label for="data_nasc">Data de Nascimento: </label>
-        <input type="date" name="data_nasc" id="data_nasc" required>
-      </div>
-      <br>
-     
-      <input type="submit" name="submit" id="submit">
-      </div>
-    </fieldset>
-  </form>
+    <label>
+        <input class="input" type="password" id="senha" placeholder="" required="">
+        <span>Senha</span>
+    </label>
+    <label>
+        <input class="input" type="password" id="senha" placeholder="" required="">
+        <span>Confirme a senha</span>
+    </label>
+    <button class="submit" id="submit">Cadastrar</button>
+    <p class="signin" style="color: #606060; ">Já possui conta? <a href="login.php">Faça o login</a> </p>
+</form>
 </body>
-
 </html>
 
-
-
-</html>
