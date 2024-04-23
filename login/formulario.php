@@ -12,44 +12,43 @@ function get_form($key, $type="") {
   ); 
 }
 
-// Obtenção dos valores do formulário
-$nome = get_form('nome');
-$data_nasc = get_form('data_nasc');
-$telefone = get_form('telefone');
-$email = get_form('email');
-$senha = get_form('senha');
-$senha2 = get_form('senha2');
+if(isset($_POST['submit'])) {
+  $nome = get_form('nome');
+  $data_nasc = get_form('data_nasc');
+  $telefone = get_form('telefone');
+  $email = get_form('email');
+  $senha = get_form('senha');
+  $senha2 = get_form('senha2');
+    
+  $qry = "INSERT INTO usuarios (
+    nome_completo,
+    email,
+    telefone,
+    senha,
+    data_cadastro,
+    data_nascimento
+  )
+  VALUES (
+    '$nome',
+    '$email',
+    '$telefone',
+    '$senha',
+    NOW(),
+    '$data_nasc'
+  )";
+  // var_dump($qry);die;
 
-// Inserção dos dados no banco de dados
-$qry = "INSERT INTO usuarios (
-  nome_completo,
-  email,
-  telefone,
-  senha,
-  data_cadastro,
-  data_nascimento
-)
-VALUES (
-  '$nome',
-  '$email',
-  '$telefone',
-  '$senha',
-  NOW(),
-  '$data_nasc'
-)";
-var_dump($qry);die;
+  // Execução da consulta SQL
+  if(mysqli_query($conexao, $qry)) {
+    echo "Registro inserido com sucesso.";
+  } else {
+    echo "Erro ao inserir o registro: " . mysqli_error($conexao);
+  }
 
-// Execução da consulta SQL
-if(mysqli_query($conexao, $sql)) {
-  echo "Registro inserido com sucesso.";
-} else {
-  echo "Erro ao inserir o registro: " . mysqli_error($conexao);
+  // Fechamento da conexão com o banco de dados
+  mysqli_close($conexao);
+  header('Location: login.php');
 }
-
-// Fechamento da conexão com o banco de dados
-mysqli_close($conexao);
-
-
 ?>
 
 
