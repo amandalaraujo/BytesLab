@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Crude</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="login-tela.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&family=Outfit:wght@300&display=swap" rel="stylesheet">
@@ -16,6 +16,9 @@
 <body>
  <section class="login">
      <div class="centralizer">
+        <div class="imglogin" >
+              <img class="imglogin-img"  src="./login-tela.jpg" alt="" > 
+        </div>
         <form  class="login-form" action="teste.php" method="POST">
         <?php
           session_start();
@@ -38,9 +41,7 @@
           <input type="submit" name="submit" id="submit" value="Entrar">
           <p>Ainda não possui cadastro? <a href="formulario.php">Cadastre-se!</a></p>
         </form>
-        <div class="imglogin" >
-              <img class="imglogin-img"  src="./15410.jpg" alt="" > 
-        </div>
+   
     </div>
   </section>
 </body>
