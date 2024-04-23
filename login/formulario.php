@@ -1,59 +1,60 @@
-<html>
-<?php 
-  // if(isset($_POST['submit']))
-  // {
-  //   print_r('Nome: ' . $_POST['nome']);
-  //   print_r('<br>');
-  //   print_r('E-mail: ' . $_POST['email']);
-  //   print_r('<br>');
-  //   print_r('Genero: ' . $_POST['genero']);
-  //   print_r('<br>');
-  //   print_r('Data de Nascimento: ' . $_POST['dataNasc']);
-  //   print_r('<br>');
-  //   print_r('Endereço: ' . $_POST['endereco']);
-  //   print_r('<br>');
-  //   print_r('Cidade: ' . $_POST['cidade']);
-  //   print_r('<br>');
-  //   print_r('Estado: ' . $_POST['estado']);
-  // }
+<?php
+include_once('C:\xampp\htdocs\BytesLab\banco\config.php');
 
-  ///////////////////////////////////
-  // echo "Nome:  $nome <br>";
-  // echo "email: $email <br>";
-  // echo "Telefone: $tel <br>";
-  // echo "Genero: $genero <br>";
-  // echo "dataNasc: $dataNasc <br>";
-  // echo "Nome: $nome <br>";
-  // echo "Nome: $nome <br>";
-  // echo "Nome: $nome <br>";
-  // echo "Nome: $nome <br>";
-  /////////////////////////////////////
+// Função para tratar os dados do formulário
+function get_form($key, $type="") {
+  return ((isset($_POST[$key])) ? 
+    ((is_array($_POST[$key])) ? $_POST[$key] : trim($_POST[$key])) : 
+    ((isset($_GET[$key])) ? 
+      ((is_array($_GET[$key])) ? $_GET[$key] : trim($_GET[$key])) : 
+      ((isset($_FILES[$key])) ? $_FILES[$key] : "" )
+    )
+  ); 
+}
 
-  include_once('C:\xampp\htdocs\BytesLab\banco\config.php');
+// Obtenção dos valores do formulário
+$nome = get_form('nome');
+$data_nasc = get_form('data_nasc');
+$telefone = get_form('telefone');
+$email = get_form('email');
+$senha = get_form('senha');
+$senha2 = get_form('senha2');
 
-  if(isset($_POST['submit'])) {
-    $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
-    $email = isset($_POST['email']) ? $_POST['email'] : '';
-    $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
-    $tel = isset($_POST['telefone']) ? $_POST['telefone'] : '';
-    $sexo = isset($_POST['genero']) ? $_POST['genero'] : '';
-    $datanasc = isset($_POST['dataNasc']) ? $_POST['dataNasc'] : '';
+// Inserção dos dados no banco de dados
+$qry = "INSERT INTO usuarios (
+  nome_completo,
+  email,
+  telefone,
+  senha,
+  data_cadastro,
+  data_nascimento
+)
+VALUES (
+  '$nome',
+  '$email',
+  '$telefone',
+  '$senha',
+  NOW(),
+  '$data_nasc'
+)";
+var_dump($qry);die;
 
-  $result = mysqli_query($conexao, "INSERT INTO usuarios(nome,email,senha,telefone,sexo,data_nasc,cidade,estado,endereco) VALUES('$nome','$email','$senha','$tel','$sexo','$datanasc','$cidade','$estado','$end')");
+// Execução da consulta SQL
+if(mysqli_query($conexao, $sql)) {
+  echo "Registro inserido com sucesso.";
+} else {
+  echo "Erro ao inserir o registro: " . mysqli_error($conexao);
+}
 
-  header('Location: login.php');
-  }
-    
-  // $query = "INSERT INTO usuarios(nome,email,telefone,sexo,data_nasc,cidade,estado,endereco) VALUES ('$nome','$email','$tel','$sexo','$datanasc','$cidade','$estado','$end')";
+// Fechamento da conexão com o banco de dados
+mysqli_close($conexao);
 
-  // $result = mysqli_query($conexao, $query);
- // -> Outra maneira de fazer. 
+
 ?>
 
 
-
+<html>
 <!DOCTYPE html>
-
 <html lang="pt-br">
 
 <head>
@@ -72,31 +73,30 @@
     <p class="message">Cadastre-se para realizar o seu agendamento. </p>
        
     <label>
-        <input class="input" type="text" id="nome" placeholder="" required="">
+        <input class="input" type="text" name="nome" id="nome"  required>
         <span>Nome Completo</span>
     </label>
     <label>
-        <input class="input" type="date" id="data_nasc" placeholder="" required="">
+        <input class="input" type="date" name="data_nasc" id="data_nasc"  required>
         <span>Data Nascimento</span>
     </label>
     <label>
-        <input class="input" type="text" id="telefone" placeholder="" required="">
+        <input class="input" type="text" name="telefone" id="telefone"  required>
         <span>Telefone</span>
     </label>     
     <label>
-        <input class="input" type="text" id="email" placeholder="" required="">
+        <input class="input" type="text" name="email" id="email"  required>
         <span>Email</span>
     </label> 
-
     <label>
-        <input class="input" type="password" id="senha" placeholder="" required="">
+        <input class="input" type="password" name="senha" id="senha"  required>
         <span>Senha</span>
     </label>
     <label>
-        <input class="input" type="password" id="senha" placeholder="" required="">
+        <input class="input" name="senha2" type="password" id="senha2"  required>
         <span>Confirme a senha</span>
     </label>
-    <button class="submit" id="submit">Cadastrar</button>
+    <button class="submit" type="submit" name="submit" id="submit">Cadastrar</button>
     <p class="signin" style="color: #606060; ">Já possui conta? <a href="login.php">Faça o login</a> </p>
 </form>
 </body>
