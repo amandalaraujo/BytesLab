@@ -1,4 +1,4 @@
-<!-- código html -->
+
  <!DOCTYPE html>
 
  <html lang="pt-br">
@@ -19,7 +19,7 @@
         <div class="imglogin" >
               <img class="imglogin-img"  src="./login-tela.jpg" alt="" > 
         </div>
-        <form  class="login-form" action="teste.php" method="POST">
+        <form  class="login-form" action="validacao-login.php" method="POST">
         <?php
           session_start();
           if (isset($_SESSION['erro'])) {

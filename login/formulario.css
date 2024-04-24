@@ -68,6 +68,7 @@ body {
 .signin {
   font-size: 14.5px;
   color: #A27758;
+
 }
 
 .signin {
@@ -146,6 +147,41 @@ body {
   ;
 }
 
+.alert-error {
+  color: #b93131;
+  font-size: 10px;
+}
+
+.field-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.input {
+  padding-right: 30px; /* Adiciona espaço para o ícone do olho */
+  position: relative; /* Define o posicionamento relativo para os ícones */
+}
+
+/* Estilo para o ícone do olho */
+.lnr-eye, .lnr-lock {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 20px; /* Tamanho do ícone */
+  cursor: pointer;
+}
+
+
+.hide {
+  display: none; /* Inicia o ícone de cadeado como oculto */
+}
+
+
+
 @keyframes pulse {
   from {
     transform: scale(0.9);
@@ -156,4 +192,6 @@ body {
     transform: scale(1.8);
     opacity: 0;
   }
+
+
 }
