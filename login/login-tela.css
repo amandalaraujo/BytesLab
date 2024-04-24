@@ -34,9 +34,9 @@ legend {
   background: none;
   box-shadow: none;
   padding: 5px;
-  border-bottom: 1px solid aliceblue;
+  border-bottom: 1px solid #A27758;
   outline: none;
-  color: aliceblue;
+  color: #B87743;
   font-size: 15px;
   width: 95%;
   letter-spacing: 1px;
@@ -68,7 +68,7 @@ a {
   width: min-content;
   border: none;
   padding: 15px;
-  color: rgb(255, 255, 255);
+  color: #B87743;
   font-size: 15px;
   border-radius: 10px;
   cursor: pointer;
