@@ -31,7 +31,7 @@ body{
 }
 
 .left {
-    width: 90%;
+    width: 60%;
     padding: 20px;
 }
 
@@ -240,4 +240,120 @@ body{
     border: none;
     border-left: 1px solid var(--primary-clr);
     border-radius: 0;
+}
+/*confgs -> bloco de tarefas*/
+.container .right {
+    position: relative;
+    width: 40%;
+    min-height: 100%;
+    padding: 20px 0;
+}
+
+.right .today-date{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    padding-left: 70px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    
+}
+
+.today-date .event-day{
+font-size: 2rem;
+font-weight: 500;
+}
+
+.today-date .event-date{
+    font-size: 1rem;
+    font-weight: 400;
+    color: #ebf0da;
+}
+
+.events{
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+}
+
+.events .event{
+    position: relative;
+    width: 95%;
+    min-height: 70px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 20px;
+    padding-left: 50px;
+    color: #ebf0da;
+    cursor: pointer;
+    background: linear-gradient(90deg, #f591b2, transparent);
+}
+
+.events .event:nth-child(even){
+    background: transparent;
+}
+
+.events .event:hover{
+    background: linear-gradient(90deg, #d3d5d6d7, transparent);
+}
+
+.events .event .title{
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.events .event .title .event-title{
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+.events .event .title i{
+    color: #fd5185;
+    font-size: 0.5rem;
+}
+
+.events .event:hover .title i,
+.events .event:hover .event-time{
+    color: #fff;
+}
+
+.events .event .event-time{
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #d8d8da;
+    margin-left: 15px;
+    pointer-events: none;
+}
+/*edições -> icone "check na barra de tarefas"*/
+.event::after{
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    right: 0;
+    font-size: 3rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.3;
+    color: var(--primary-clr);
+    transform: translateY(-50%);
+}
+
+.event:hover::after{
+    display: flex;
 }
