@@ -1,0 +1,112 @@
+/* Estilos gerais para o corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8d7e4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Garante que o corpo ocupe a altura total da janela */
+    color: #d64075;
+}
+
+/* Estilos para a logo */
+.logo {
+    margin-top: 400px; /* Ajusta a margem superior para mover a imagem para baixo */
+    display: flex;
+    justify-content: center; /* Centraliza a imagem horizontalmente */
+}
+
+.logo img {
+    width: 200px; /* Aumenta o tamanho da imagem */
+    height: auto;
+}
+
+/* Estilos para o conteúdo principal */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Centraliza o conteúdo no meio da tela */
+}
+
+.text-content {
+    text-align: center;
+    margin-top: 20px; /* Espaço entre a imagem e o texto */
+    margin-bottom: 20px; /* Espaço acima da linha */
+}
+
+h1 {
+    font-family: 'Emilia', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px; /* Diminui o tamanho do texto */
+    line-height: 40px;
+    letter-spacing: -0.02em;
+    background: linear-gradient(188.52deg, rgba(244, 106, 139, 0.84) 60.26%, rgba(142, 62, 81, 0.84) 160.59%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    margin: 10px 0 5px;
+}
+
+.subtitle {
+    font-family: 'Emilia', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px; /* Diminui o tamanho do texto */
+    line-height: 20px;
+    letter-spacing: -0.02em;
+    color: rgba(244, 106, 139, 0.85);
+}
+
+/* Estilos para a linha divisória */
+.divider {
+    width: 95%; /* Aumenta o tamanho da linha */
+    height: 1px;
+    background-color: #d64075;
+    margin: 20px auto 0; /* Ajusta a margem */
+}
+
+/* Estilos para o rodapé */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Mantém os itens centralizados verticalmente */
+    padding: 20px; /* Ajusta o padding para posicionar os itens */
+    width: 100%; /* Garante que o footer ocupe a largura total */
+    box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura */
+    background-color: #f8d7e4;
+}
+
+.footer p {
+    margin: 5px 27px; /* Ajusta as margens para aproximar as escritas */
+    font-size: 16px; /* Aumenta o tamanho da fonte */
+    color: #d64075;
+    display: flex;
+    align-items: center; /* Alinha o texto verticalmente com o ícone */
+}
+
+.footer p svg {
+    margin-right: 5px; /* Espaço entre o ícone e o texto */
+}
+
+.footer p:first-child {
+    justify-content: flex-start; /* Alinha o primeiro parágrafo à esquerda */
+    flex: 1; /* Ocupa o espaço necessário */
+}
+
+.footer p:nth-child(2) {
+    justify-content: center; /* Centraliza o segundo parágrafo */
+    flex: 1; /* Ocupa o espaço necessário */
+}
+
+.footer p:last-child {
+    justify-content: flex-end; /* Alinha o terceiro parágrafo à direita */
+    flex: 1; /* Ocupa o espaço necessário */
+    text-align: right; /* Garante que o texto está alinhado à direita */
+}
