@@ -3,13 +3,13 @@ const calendar = document.querySelector(".calendar"),
     date = document.querySelector(".date"),
     daysContainer = document.querySelector(".days"),
     prev = document.querySelector(".prev"),
-    next = document.querySelector(".next");
-    todayBtn = document.querySelector(".today-btn");
-    gotoBtn = document.querySelector(".goto-btn");
-    dateInput = document.querySelector(".date-input");
+    next = document.querySelector(".next"),
+    todayBtn = document.querySelector(".today-btn"),
+    gotoBtn = document.querySelector(".goto-btn"),
+    dateInput = document.querySelector(".date-input"),
     eventDay = document.querySelector(".event-day"),
-    eventDate = document.querySelector(".event-date");
-    eventsContainer = document.querySelector(".events");
+    eventDate = document.querySelector(".event-date"),
+    eventsContainer = document.querySelector(".events"),
     addEventSubmit = document.querySelector(".add-event-btn");
 
 let today = new Date();
@@ -18,18 +18,8 @@ let month = today.getMonth();
 let year = today.getFullYear();
 
 const months = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Maio",
-    "Junho",
-    "Julho",
-    "Agosto",
-    "Setembro",
-    "Outubro",
-    "Novembro",
-    "Dezembro",
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
 const daysOfWeek = [
@@ -72,7 +62,6 @@ let eventsArr = [];
 //then call get
 getEvents();
 
-
 //Funcao para adicionar os dias: 
 function initCalendar() {
     //para obter os dias do mes e o mes atual todos os dias e os dias do proximo mes
@@ -92,26 +81,25 @@ function initCalendar() {
 
     //dias do mes anterior
     for(let x = day; x > 0; x--){
-        days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
+        days += <div class="day prev-date">${prevDays - x + 1}</div>;
     }
 
     //dias do mes atual
     for(let i = 1; i <= lastDate; i++){
-
         //verificar se o evento esta presente no dia atual
         let event = false;
-            eventsArr.forEach((eventObj) => {
-                if(
-                    eventObj.day === i &&
-                    eventObj.month === month + 1 &&
-                    eventObj.year === year
-                ) {
-                    //if -> evento encontrado 
-                    event = true;
-                }
-            });
+        eventsArr.forEach((eventObj) => {
+            if (
+                eventObj.day === i &&
+                eventObj.month === month + 1 &&
+                eventObj.year === year
+            ) {
+                //if -> evento encontrado 
+                event = true;
+            }
+        });
 
-        if(
+        if (
             i === new Date().getDate() && 
             year === new Date().getFullYear() && 
             month === new Date().getMonth()
@@ -123,24 +111,24 @@ function initCalendar() {
             //se o evento for encontrado também adiciona a classe do evento
             //adiciona o dia ativo na inicialização
             if (event){
-                days += `<div class="day today active event" >${i}</div>`;
+                days += <div class="day today active event">${i}</div>;
             } else {
-                days += `<div class="day today" >${i}</div>`;
+                days += <div class="day today active">${i}</div>;
             }
         }
         //adicione o restante
         else {
             if (event){
-                days += `<div class="day event" >${i}</div>`;
+                days += <div class="day event">${i}</div>;
             } else {
-                days += `<div class="day" >${i}</div>`;
+                days += <div class="day">${i}</div>;
             }
         }
     }
 
     //dias do proximo mes
     for(let j = 1; j <= nextDays; j++){
-        days += `<div class="day next-date">${j}</div>`;
+        days += <div class="day next-date">${j}</div>;
     }
 
     daysContainer.innerHTML = days;
@@ -183,7 +171,6 @@ todayBtn.addEventListener("click", () => {
     initCalendar();
 });
 
-
 dateInput.addEventListener("input", (e) => {
     //permiti apenas numeros, remove qualquer outra coisa
     dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
@@ -224,9 +211,9 @@ function gotoDate(){
 //Eventos:
 const addEventBtn = document.querySelector(".add-event"),
     addEventContainer = document.querySelector(".add-event-wrapper"),
-    addEventCloseBtn = document.querySelector(".close");
-    addEventTitle = document.querySelector(".event-name");
-    addEventFrom = document.querySelector(".event-time-from");
+    addEventCloseBtn = document.querySelector(".close"),
+    addEventTitle = document.querySelector(".event-name"),
+    addEventFrom = document.querySelector(".event-time-from"),
     addEventTo = document.querySelector(".event-time-to");
 
 addEventBtn.addEventListener("click", () => {
@@ -276,62 +263,139 @@ addEventTo.addEventListener("input", (e) => {
     }
 });
 
-//funcao para adicionar dias apos a renderizacao
-function addListner(){
+addEventSubmit.addEventListener("click", () => {
+    const eventTitle = addEventTitle.value;
+    const eventTimeFrom = addEventFrom.value;
+    const eventTimeTo = addEventTo.value;
+
+    //validacao
+    if(eventTitle === "" || eventTimeFrom === "" || eventTimeTo === ""){
+        alert("Por favor, preencha todos os campos");
+        return;
+    }
+
+    //validacao de tempo correto
+    const timeFromArr = eventTimeFrom.split(":");
+    const timeToArr = eventTimeTo.split(":");
+    if(timeFromArr.length !== 2 || timeToArr.length !== 2 || timeFromArr[0] > 23 || timeFromArr[1] > 59 || timeToArr[0] > 23 || timeToArr[1] > 59){
+        alert("Formato de hora inválido");
+        return;
+    }
+
+    //verifica a hora 
+    const timeFrom = convertTime(eventTimeFrom);
+    const timeTo = convertTime(eventTimeTo);
+
+    const newEvent = {
+        title: eventTitle,
+        time: timeFrom + " - " + timeTo,
+    };
+
+    let eventAdded = false;
+    if(eventsArr.length > 0){
+        eventsArr.forEach((item) => {
+            if(
+                item.day === activeDay &&
+                item.month === month + 1 &&
+                item.year === year
+            ){
+                item.events.push(newEvent);
+                eventAdded = true;
+            }
+        });
+    }
+
+    //if -> evento nao encontrado, adicionar novo evento no array de eventos
+    if(!eventAdded){
+        eventsArr.push({
+            day: activeDay,
+            month: month + 1,
+            year: year,
+            events: [newEvent],
+        });
+    }
+
+    addEventContainer.classList.remove("active");
+    addEventTitle.value = "";
+    addEventFrom.value = "";
+    addEventTo.value = "";
+
+    //atualizar o evento no localStorage
+    localStorage.setItem("events", JSON.stringify(eventsArr));
+
+    //exibir evento adicionado
+    updateEvents(activeDay);
+
+    //adicionar a classe de evento
+    const activeDayEl = document.querySelector(".day.active");
+    if(!activeDayEl.classList.contains("event")){
+        activeDayEl.classList.add("event");
+    }
+});
+
+//função para obter hora formatada
+function convertTime(time){
+    let timeArr = time.split(":");
+    let timeHour = timeArr[0];
+    let timeMin = timeArr[1];
+    let timeFormat = timeHour >= 12 ? "PM" : "AM";
+    timeHour = timeHour % 12 || 12;
+    time = timeHour + ":" + timeMin + " " + timeFormat;
+    return time;
+}
+
+//funcao para adicionar listner de clique nos dias apos renderizar os dias
+function addListner() {
     const days = document.querySelectorAll(".day");
     days.forEach((day) => {
         day.addEventListener("click", (e) => {
-            //definir o dia atual como dia ativo
+            //atualizar o evento ativo (remover o evento ativo anterior)
             activeDay = Number(e.target.innerHTML);
-
-            //ligue ativo no dia seguinte ao clique
             getActiveDay(e.target.innerHTML);
             updateEvents(Number(e.target.innerHTML));
 
-
-            //remover ativo de um dia ja ativo
+            //remover classe ativa de outros dias
             days.forEach((day) => {
                 day.classList.remove("active");
             });
 
-            //if -> se o dia do mes anterior deu match, vai para o mes anterior e adiciona o ativo
+            //se o dia do mes anterior for clicado, mude para o mes anterior
             if(e.target.classList.contains("prev-date")){
                 prevMonth();
 
+                //adicionar classe ativa ao dia correto apos mudar de mes
                 setTimeout(() => {
-                    //selecione todos os dias desse mes
+                    //selecionar todos os dias atuais
                     const days = document.querySelectorAll(".day");
-
-                    //depois de ir para o mes anterior, adiciona ativo
                     days.forEach((day) => {
                         if(
-                        !day.classList.contains("prev-date") && 
-                        day.innerHTML === e.target.innerHTML
-                        ) {
+                            !day.classList.contains("prev-date") && 
+                            day.innerHTML === e.target.innerHTML
+                        ){
                             day.classList.add("active");
                         }
                     });
                 }, 100);
-
-            //proximos dias do mes
-            } else if (e.target.classList.contains("next-date")){
+            } 
+            //se o dia do proximo mes for clicado, mude para o proximo mes
+            else if(e.target.classList.contains("next-date")){
                 nextMonth();
 
+                //adicionar classe ativa ao dia correto apos mudar de mes
                 setTimeout(() => {
-                    //selecione todos os dias daquele mes
+                    //selecionar todos os dias atuais
                     const days = document.querySelectorAll(".day");
-
-                    //depois de ir para o mes anterior, adiciona ativo
                     days.forEach((day) => {
                         if(
-                        !day.classList.contains("next-date") && 
-                        day.innerHTML === e.target.innerHTML
-                        ) {
+                            !day.classList.contains("next-date") && 
+                            day.innerHTML === e.target.innerHTML
+                        ){
                             day.classList.add("active");
                         }
                     });
                 }, 100);
             }
+            //adicionar classe ativa ao dia clicado
             else {
                 e.target.classList.add("active");
             }
@@ -339,25 +403,23 @@ function addListner(){
     });
 }
 
-//mostrar os eventos do dia ativo e a data no topo:
-function getActiveDay(date) {
+//funcao para obter dia ativo:
+function getActiveDay(date){
     const day = new Date(year, month, date);
-    const dayName = daysOfWeek[day.getDay()]; // Use the translated day name
+    const dayName = daysOfWeek[day.getDay()];
     eventDay.innerHTML = dayName;
     eventDate.innerHTML = date + " " + months[month] + " " + year;
 }
 
-//funcao para mostrar os eventos para o dia
+//funcao para atualizar o evento quando outro dia for clicado
 function updateEvents(date){
     let events = "";
     eventsArr.forEach((event) => {
-        //get events of active day only
         if(
             date === event.day &&
             month + 1 === event.month &&
             year === event.year
-        ) {
-            //then show event on document
+        ){
             event.events.forEach((event) => {
                 events += `
                 <div class="event">
@@ -374,151 +436,56 @@ function updateEvents(date){
         }
     });
 
-    //if nothing found
-    if((events === "")){
+    //if -> evento não encontrado
+    if(events === ""){
         events = `<div class="no-event">
-                <h3>Sem eventos</h3>
-            </div>`;
+            <h3>Sem eventos</h3>
+        </div>`;
     }
 
     eventsContainer.innerHTML = events;
-    //save events when update event called
-    saveEvents();
 }
 
-//lets create function to add events
-addEventSubmit.addEventListener("click", () => {
-    const eventTitle = addEventTitle.value;
-    const eventTimeFrom = addEventFrom.value;
-    const eventTimeTo = addEventTo.value;
-
-    //some validations
-        if(eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
-        alert("Por favor preencha todos os campos");
-        return;
-    }
-
-    const timeFromArr = eventTimeFrom.split(":");
-    const timeToArr = eventTimeTo.split(":");
-
-    if(
-        timeFromArr.length !== 2 ||
-        timeToArr.length !== 2 ||
-        timeFromArr[0] > 23 ||
-        timeFromArr[1] > 59 ||
-        timeToArr[0] > 23 ||
-        timeToArr[1] > 59
-    ) {
-        alert("Formato de hora inválido");
-    }
-
-    const timeFrom = convertTime(eventTimeFrom);
-    const timeTo = convertTime(eventTimeTo); // Changed to convertTime
-
-    const  newEvent = {
-        title: eventTitle,
-        time: timeFrom + " - " + timeTo,
-    };
-
-    let eventAdded = false;
-
-    //check if eventarr not empty
-    if(eventsArr.length > 0){
-        //check if current day has already any then add to that
-        eventsArr.forEach((item) => {
-            if(
-                item.day === activeDay &&
-                item.month === month + 1 &&
-                item.year === year
-            ) {
-                item.events.push(newEvent);
-                eventAdded = true;
-            }
-        });
-    }
-
-    //if event array or current day has no event create new
-    if(!eventAdded){
-        eventsArr.push({
-            day: activeDay,
-            month: month + 1,
-            year: year,
-            events: [newEvent],
-        });
-    }
-
-    //remove active from add event form
-     addEventContainer.classList.remove("active")
-     //clear the fields
-     addEventTitle.value = "";
-     addEventFrom.value = "";
-     addEventTo.value = "";
-
-     //show current added event
-     updateEvents(activeDay);
-
-     //also add event class to newly added day if not already
-     const activeDayElem = document.querySelector(".day.active");
-     if(!activeDayElem.classList.add("event")){
-        activeDayElem.classList.add("event");
-     }
-});
-
-function convertTime(time){ // Changed to convertTime
-    let timeArr = time.split(":");
-    let timeHour = timeArr[0];
-    let timeMin = timeArr[1];
-    let timeFormat = timeHour >= 12 ? "PM" : "AM";
-    timeHour = timeHour % 12 || 12;
-    time = timeHour + ":" + timeMin + " " + timeFormat;
-    return time;
-}
-
-//lets create a function to remove events on click
- eventsContainer.addEventListener("click", (e) => {
+//função para remover o evento ao clicar
+eventsContainer.addEventListener("click", (e) => {
     if(e.target.classList.contains("event")){
-        const eventTitle = e.target.children[0].children[1].innerHTML;
-        //get the title of event than search in array by title and delete
+        const eventTitle = e.target.querySelector(".event-title").innerHTML;
         eventsArr.forEach((event) => {
             if(
                 event.day === activeDay &&
                 event.month === month + 1 &&
                 event.year === year
-            ) {
+            ){
                 event.events.forEach((item, index) => {
                     if(item.title === eventTitle){
                         event.events.splice(index, 1);
                     }
                 });
 
-                //if no event remaing on that dat remove complete day
+                //if -> nenhum evento restante no dia, remova o dia inteiro
                 if(event.events.length === 0){
                     eventsArr.splice(eventsArr.indexOf(event), 1);
 
-                    //after remove complete day also remove active class of that day
-                    const activeDayElem = document.querySelector(".day.active");
-                    if(activeDayElem.classList.contains("event")){
-                        activeDayElem.classList.remove("event");
+                    //remover classe de evento se nao houver eventos
+                    const activeDayEl = document.querySelector(".day.active");
+                    if(activeDayEl.classList.contains("event")){
+                        activeDayEl.classList.remove("event");
                     }
                 }
             }
         });
-
-        //after removing fomr array update event
+        //atualizar eventos apos a remoção
         updateEvents(activeDay);
+
+        //atualizar no localStorage
+        localStorage.setItem("events", JSON.stringify(eventsArr));
     }
- });
+});
 
- //lets store events in local storage get from there
- function saveEvents(){
-    console.log("yes");
-    localStorage.setItem("events", JSON.stringify(eventsArr));
- }
-
- function getEvents(){
-    if(localStorage.getItem("events" === null)){
+//função para armazenar eventos no localStorage
+function getEvents() {
+    if(localStorage.getItem("events") === null){
         return;
     }
-    
-    eventsArr.push(...JSON.parse(localStorage.getItem("events")));
- }
+    eventsArr = JSON.parse(localStorage.getItem("events"));
+}
