@@ -9,6 +9,8 @@ const calendar = document.querySelector(".calendar"),
     dateInput = document.querySelector(".date-input");
     eventDay = document.querySelector(".event-day"),
     eventDate = document.querySelector(".event-date");
+    eventsContainer = document.querySelector(".events");
+    addEventSubmit = document.querySelector(".add-event-btn");
 
 let today = new Date();
 let activeDay;
@@ -30,35 +32,46 @@ const months = [
     "Dezembro",
 ];
 
-//array de eventos (padrão): 
-const eventsArr = [
-    {
-        day: 26,
-        month: 5,
-        year: 2024,
-        events: [
-            {
-                title: "Event 1 loren ipsun dolar sit tersad dasrs ",
-                time: "10:00 AM",
-            },
-            {
-                title: "Event 2",
-                time: "11:00 AM",
-            },
-        ],
-    },
-    {
-        day: 28,
-        month: 5,
-        year: 2024,
-        events: [
-            {
-                title: "Event 1 loren ipsun dolar sit tersad dasrs ",
-                time: "10:00 AM",
-            },
-        ],
-    },
+const daysOfWeek = [
+    "Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"
 ];
+
+// Array de eventos entrada padrão para teste:
+// const eventsArr = [
+//     {
+//         day: 26,
+//         month: 5,
+//         year: 2024,
+//         events: [
+//             {
+//                 title: "Event 1 loren ipsun dolar sit tersad dasrs ",
+//                 time: "10:00 AM",
+//             },
+//             {
+//                 title: "Event 2",
+//                 time: "11:00 AM",
+//             },
+//         ],
+//     },
+//     {
+//         day: 28,
+//         month: 5,
+//         year: 2024,
+//         events: [
+//             {
+//                 title: "Event 1 loren ipsun dolar sit tersad dasrs ",
+//                 time: "10:00 AM",
+//             },
+//         ],
+//     },
+// ];
+
+//set a empty array
+let eventsArr = [];
+
+//then call get
+getEvents();
+
 
 //Funcao para adicionar os dias: 
 function initCalendar() {
@@ -105,6 +118,7 @@ function initCalendar() {
         ) {
             activeDay = i;
             getActiveDay(i);
+            updateEvents(i);
             
             //se o evento for encontrado também adiciona a classe do evento
             //adiciona o dia ativo na inicialização
@@ -179,7 +193,7 @@ dateInput.addEventListener("input", (e) => {
     }
     if(dateInput.value.length > 7){
         //nao permita mais de 7 caracteres
-        dateInput.value = dateInput.value.slide(0, 7);
+        dateInput.value = dateInput.value.slice(0, 7);
     }
     //if -> retrocesso pressionado
     if(e.inputType === "deleteContentBackward"){
@@ -272,6 +286,8 @@ function addListner(){
 
             //ligue ativo no dia seguinte ao clique
             getActiveDay(e.target.innerHTML);
+            updateEvents(Number(e.target.innerHTML));
+
 
             //remover ativo de um dia ja ativo
             days.forEach((day) => {
@@ -326,7 +342,183 @@ function addListner(){
 //mostrar os eventos do dia ativo e a data no topo:
 function getActiveDay(date) {
     const day = new Date(year, month, date);
-    const dayName = day.toString().split(" ")[0];
+    const dayName = daysOfWeek[day.getDay()]; // Use the translated day name
     eventDay.innerHTML = dayName;
-    eventDate.innerHTML = date + " " + month[month] + " " + year;
+    eventDate.innerHTML = date + " " + months[month] + " " + year;
 }
+
+//funcao para mostrar os eventos para o dia
+function updateEvents(date){
+    let events = "";
+    eventsArr.forEach((event) => {
+        //get events of active day only
+        if(
+            date === event.day &&
+            month + 1 === event.month &&
+            year === event.year
+        ) {
+            //then show event on document
+            event.events.forEach((event) => {
+                events += `
+                <div class="event">
+                    <div class="title">
+                        <i class="fas fa-circle"></i>
+                        <h3 class="event-title">${event.title}</h3>
+                    </div>
+                    <div class="event-time">
+                        <span class="event-time">${event.time}</span>
+                    </div>
+                </div>
+                `;
+            });
+        }
+    });
+
+    //if nothing found
+    if((events === "")){
+        events = `<div class="no-event">
+                <h3>Sem eventos</h3>
+            </div>`;
+    }
+
+    eventsContainer.innerHTML = events;
+    //save events when update event called
+    saveEvents();
+}
+
+//lets create function to add events
+addEventSubmit.addEventListener("click", () => {
+    const eventTitle = addEventTitle.value;
+    const eventTimeFrom = addEventFrom.value;
+    const eventTimeTo = addEventTo.value;
+
+    //some validations
+        if(eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
+        alert("Por favor preencha todos os campos");
+        return;
+    }
+
+    const timeFromArr = eventTimeFrom.split(":");
+    const timeToArr = eventTimeTo.split(":");
+
+    if(
+        timeFromArr.length !== 2 ||
+        timeToArr.length !== 2 ||
+        timeFromArr[0] > 23 ||
+        timeFromArr[1] > 59 ||
+        timeToArr[0] > 23 ||
+        timeToArr[1] > 59
+    ) {
+        alert("Formato de hora inválido");
+    }
+
+    const timeFrom = convertTime(eventTimeFrom);
+    const timeTo = convertTime(eventTimeTo); // Changed to convertTime
+
+    const  newEvent = {
+        title: eventTitle,
+        time: timeFrom + " - " + timeTo,
+    };
+
+    let eventAdded = false;
+
+    //check if eventarr not empty
+    if(eventsArr.length > 0){
+        //check if current day has already any then add to that
+        eventsArr.forEach((item) => {
+            if(
+                item.day === activeDay &&
+                item.month === month + 1 &&
+                item.year === year
+            ) {
+                item.events.push(newEvent);
+                eventAdded = true;
+            }
+        });
+    }
+
+    //if event array or current day has no event create new
+    if(!eventAdded){
+        eventsArr.push({
+            day: activeDay,
+            month: month + 1,
+            year: year,
+            events: [newEvent],
+        });
+    }
+
+    //remove active from add event form
+     addEventContainer.classList.remove("active")
+     //clear the fields
+     addEventTitle.value = "";
+     addEventFrom.value = "";
+     addEventTo.value = "";
+
+     //show current added event
+     updateEvents(activeDay);
+
+     //also add event class to newly added day if not already
+     const activeDayElem = document.querySelector(".day.active");
+     if(!activeDayElem.classList.add("event")){
+        activeDayElem.classList.add("event");
+     }
+});
+
+function convertTime(time){ // Changed to convertTime
+    let timeArr = time.split(":");
+    let timeHour = timeArr[0];
+    let timeMin = timeArr[1];
+    let timeFormat = timeHour >= 12 ? "PM" : "AM";
+    timeHour = timeHour % 12 || 12;
+    time = timeHour + ":" + timeMin + " " + timeFormat;
+    return time;
+}
+
+//lets create a function to remove events on click
+ eventsContainer.addEventListener("click", (e) => {
+    if(e.target.classList.contains("event")){
+        const eventTitle = e.target.children[0].children[1].innerHTML;
+        //get the title of event than search in array by title and delete
+        eventsArr.forEach((event) => {
+            if(
+                event.day === activeDay &&
+                event.month === month + 1 &&
+                event.year === year
+            ) {
+                event.events.forEach((item, index) => {
+                    if(item.title === eventTitle){
+                        event.events.splice(index, 1);
+                    }
+                });
+
+                //if no event remaing on that dat remove complete day
+                if(event.events.length === 0){
+                    eventsArr.splice(eventsArr.indexOf(event), 1);
+
+                    //after remove complete day also remove active class of that day
+                    const activeDayElem = document.querySelector(".day.active");
+                    if(activeDayElem.classList.contains("event")){
+                        activeDayElem.classList.remove("event");
+                    }
+                }
+            }
+        });
+
+        //after removing fomr array update event
+        updateEvents(activeDay);
+    }
+ });
+
+ //lets store events in local storage get from there
+ function saveEvents(){
+    console.log("yes");
+    localStorage.setItem("events", JSON.stringify(eventsArr));
+ }
+
+ function getEvents(){
+    if(localStorage.getItem("events" === null)){
+        return;
+    }
+    
+    eventsArr.push(...JSON.parse(localStorage.getItem("events")));
+ }
