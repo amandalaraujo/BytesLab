@@ -81,7 +81,7 @@ function initCalendar() {
 
     //dias do mes anterior
     for(let x = day; x > 0; x--){
-        days += <div class="day prev-date">${prevDays - x + 1}</div>;
+        days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
     }
 
     //dias do mes atual
@@ -111,24 +111,24 @@ function initCalendar() {
             //se o evento for encontrado também adiciona a classe do evento
             //adiciona o dia ativo na inicialização
             if (event){
-                days += <div class="day today active event">${i}</div>;
+                days += `<div class="day today active event">${i}</div>`;
             } else {
-                days += <div class="day today active">${i}</div>;
+                days += `<div class="day today active">${i}</div>`;
             }
         }
         //adicione o restante
         else {
             if (event){
-                days += <div class="day event">${i}</div>;
+                days += `<div class="day event">${i}</div>`;
             } else {
-                days += <div class="day">${i}</div>;
+                days += `<div class="day">${i}</div>`;
             }
         }
     }
 
     //dias do proximo mes
     for(let j = 1; j <= nextDays; j++){
-        days += <div class="day next-date">${j}</div>;
+        days += `<div class="day next-date">${j}</div>`;
     }
 
     daysContainer.innerHTML = days;
