@@ -273,7 +273,7 @@ font-weight: 500;
 .today-date .event-date{
     font-size: 1rem;
     font-weight: 400;
-    color: #e1e1e1;
+    color: #ffffffdc;
 }
 
 .events{
@@ -358,6 +358,16 @@ font-weight: 500;
     display: flex;
 }
 
+.events .no-event{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff7c;
+}
 /*Eventos do Calendario*/
 .add-event-wrapper {
     position: absolute;
