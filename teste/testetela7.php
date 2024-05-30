@@ -6,10 +6,7 @@
     <title>Galeria de Imagens</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
+        .container-galeria {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -27,7 +24,7 @@
             object-fit: cover; /* Mantém a proporção e cobre a área definida */
             display: block;
         }
-        .overlay {
+        .overlay-galeria {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -43,7 +40,7 @@
             transition: .5s ease;
             font-family: 'Roboto', sans-serif; /* Adiciona a fonte Roboto */
         }
-        .overlay a {
+        .overlay-galeria a {
             color: pink;
             text-decoration: none;
             font-family: 'Roboto', sans-serif; /* Adiciona a fonte Roboto */
@@ -51,18 +48,18 @@
             flex-direction: column;
             align-items: center;
         }
-        .overlay img {
+        .overlay-galeria img {
             width: 24px;  /* Ajuste do tamanho do ícone */
             height: 24px; /* Ajuste do tamanho do ícone */
             margin-top: 10px;
         }
-        .image-item:hover .overlay {
+        .image-item:hover .overlay-galeria {
             opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container-galeria">
         <?php
         $images = [
             "NailPhotos/imagem1.jpeg",
@@ -76,7 +73,7 @@
         foreach ($images as $image) {
             echo '<div class="image-item">';
             echo '<img src="' . $image . '" alt="Image">';
-            echo '<div class="overlay">
+            echo '<div class="overlay-galeria">
                     <a href="https://www.instagram.com/JOELMAALPINOOFICIAL" target="_blank">
                         @JOELMAALPINOOFICIAL
                         <img src="NailPhotos/instagram.svg" alt="Instagram">
