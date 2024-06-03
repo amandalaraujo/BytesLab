@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="style-calendar.css"/>
     <link 
         rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
@@ -74,6 +75,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            margin-bottom: 200px; /* Adicionado */
         }
         .card {
             position: relative;
@@ -131,7 +133,6 @@
             top: -10%;
             left: 2%;
             transform: rotate(0deg); /* Adjust rotation angle if needed */
-
         }
         .background-image:nth-child(2) {
             bottom: -20%;
@@ -156,6 +157,7 @@
             padding: 40px;
             text-align: center;
             position: relative;
+            margin-bottom: 200px; /* Adicionado */
         }
         .products-section h2 {
             font-family: 'Cormorant Garamond', serif;
@@ -189,6 +191,12 @@
         }
 
         /*CSS do calendario*/
+        .texto-calendar {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: black; /* Mude a cor para preto */
+            margin-bottom: 20px;
+        }
         .container-calendar {
             position: relative;
             width: 100%;
@@ -200,6 +208,7 @@
             display: flex;
             border-radius: 10px;
             background-color: #f8d2da;
+            margin-bottom: 150px; /* Adicionado */
         }
         .left {
             width: 70%;
@@ -240,7 +249,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 50px;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 500;
             text-transform: capitalize;
         }
@@ -413,7 +422,7 @@
             text-transform: capitalize;
         }
         .today-date .event-day{
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 500;
         }
         .today-date .event-date{
@@ -441,15 +450,16 @@
             gap: 5px;
             padding: 0 20px;
             padding-left: 50px;
-            color: #ebf0da;
+            color: #545454;
             cursor: pointer;
             background: linear-gradient(90deg, #f591b2, transparent);
         }
         .events .event:nth-child(even){
-            background: transparent;
+            background: linear-gradient(90deg, #FFA3BE, transparent);;
+
         }
         .events .event:hover{
-            background: linear-gradient(90deg, #d3d5d6d7, transparent);
+            background: linear-gradient(90deg, #fff, transparent);
         }
         .events .event .title{
             display: flex;
@@ -457,7 +467,7 @@
             pointer-events: none;
         }
         .events .event .title .event-title{
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 400;
             margin-left: 20px;
         }
@@ -467,12 +477,12 @@
         }
         .events .event:hover .title i,
         .events .event:hover .event-time{
-            color: #fff;
+            color: #171821;
         }
         .events .event .event-time{
             font-size: 0.8rem;
             font-weight: 400;
-            color: #d8d8da;
+            color: #171821;
             margin-left: 15px;
             pointer-events: none;
         }
@@ -625,7 +635,159 @@
         .add-event i {
             pointer-events: none;
         }
+        /* Estilos para a galeria de imagens */
+        .container-imagem {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2px; /* Parte do espaçamento das fotos*/
+        }
+        .image-item-imagem {
+            flex: 1 1 calc(33% - 10px); /*Espaço de "zoom" das imagens */
+            box-sizing: border-box;
+            max-width: calc(45% - 10px); 
+            position: relative;
+        }
+        .image-item-imagem img {
+            width: 100%; /* Ajustado para ocupar toda a largura do contêiner */
+            height: 450px; 
+            object-fit: cover; 
+            display: block;
+        }
+        .overlay-imagem {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(255, 51, 153, 0.3);  /* "Caixa de fundo" opaca */
+            backdrop-filter: blur(50px); 
+            border-radius: 15px;
+            color: pink;
+            font-size: 20px;
+            text-align: center;
+            opacity: 0;
+            transition: .5s ease;
+            font-family: 'Roboto', sans-serif;
+        }
+        .overlay-imagem a {
+            color: #FFFFFF; /*Cor da escrita @JOELMA */
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .overlay-imagem img {
+            width: 24px;   
+            height: 24px; 
+            margin-top: 10px;
+        }
+        .image-item-imagem:hover .overlay-imagem {
+            opacity: 1;
+        }
+
+        /* CSS -> Logo fim da pagina */
+        .logo {
+            margin-top: 100px; /* Ajusta a margem superior para mover a imagem para baixo */
+            display: flex;
+            justify-content: center; /* Centraliza a imagem horizontalmente */
+        }
+
+        .logo img {
+            width: 200px; /* Aumenta o tamanho da imagem */
+            height: auto;
+        }
+
+        /* Estilos para o conteúdo principal */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* Centraliza o conteúdo no meio da tela */
+        }
+
+        .text-content {
+            text-align: center;
+            margin-top: 10px; /* Espaço entre a imagem e o texto */
+            margin-bottom: 10px; /* Espaço acima da linha */
+        }
+
+        h1 {
+            font-family: 'Emilia', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 28px; /* Diminui o tamanho do texto */
+            line-height: 40px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(188.52deg, rgba(244, 106, 139, 0.84) 60.26%, rgba(142, 62, 81, 0.84) 160.59%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            margin: 10px 0 5px;
+        }
+
+        .subtitle {
+            font-family: 'Emilia', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px; /* Diminui o tamanho do texto */
+            line-height: 20px;
+            letter-spacing: -0.02em;
+            color: rgba(244, 106, 139, 0.85);
+        }
+
+        /* Estilos para a linha divisória */
+        .divider {
+            width: 95%; /* Aumenta o tamanho da linha */
+            height: 1px;
+            background-color: #d64075;
+            margin: 20px auto 0; /* Ajusta a margem */
+        }
+
+        /* Estilos para o rodapé */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Mantém os itens centralizados verticalmente */
+            padding: 20px; /* Ajusta o padding para posicionar os itens */
+            width: 100%; /* Garante que o footer ocupe a largura total */
+            box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura */
+            background-color: #f8d7e4;
+        }
+
+        .footer p {
+            margin: 5px 27px; /* Ajusta as margens para aproximar as escritas */
+            font-size: 16px; /* Aumenta o tamanho da fonte */
+            color: #d64075;
+            display: flex;
+            align-items: center; /* Alinha o texto verticalmente com o ícone */
+        }
+
+        .footer p svg {
+            margin-right: 5px; /* Espaço entre o ícone e o texto */
+        }
+
+        .footer p:first-child {
+            justify-content: flex-start; /* Alinha o primeiro parágrafo à esquerda */
+            flex: 1; /* Ocupa o espaço necessário */
+        }
+
+        .footer p:nth-child(2) {
+            justify-content: center; /* Centraliza o segundo parágrafo */
+            flex: 1; /* Ocupa o espaço necessário */
+        }
+
+        .footer p:last-child {
+            justify-content: flex-end; /* Alinha o terceiro parágrafo à direita */
+            flex: 1; /* Ocupa o espaço necessário */
+            text-align: right; /* Garante que o texto está alinhado à direita */
+        }
+
     </style>
+
 </head>
 <body class="bg-pink-30 text-gray-500">
     <header class="bg-white shadow-md">
@@ -642,7 +804,7 @@
         </div>
     </header>
     <main class="container mx-auto px-6 py-12">
-        <section class="bg-white shadow-md p-8 flex flex-col md:flex-row items-center justify-between">
+        <section class="bg-white shadow-md p-8 flex flex-col md:flex-row items-center justify-between mb-150">
             <div class="md:w-1/2 mb-6 md:mb-0 text-center md:text-left">
                 <h2 style="font-size: 50px; font-family:Cormorant Garamond" class="text-2xl font-semibold text-cinza mb-4">Unhas <br><br> um caso de <span style="font-family:Corinthia; font-size:80px;" class="text-pink-300">amor</span> <br> <br> por elas!</h2> <br>
                 <p class=" text-gray-500 mb-4 highlight">
@@ -666,7 +828,7 @@
         </section>
 
         <!-- Services Section -->
-        <section style="height: 500px;" class=" bg-white shadow-md p-8 ">
+        <section style="height: 500px;" class=" bg-white shadow-md p-8 mb-150">
             <div class="flex flex-col md:flex-row justify-around items-center">
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
                     <img src="http://localhost/byteslab/site/images/cuidadosunhas.png" alt="Cuidados com sua unha" class="w-full h-32 object-cover mb-4">
@@ -686,7 +848,7 @@
             </div>
         </section>
         <!-- New Section -->
-        <section style="height: 500px;" class="new-section">
+        <section style="height: 500px;" class="new-section mb-150">
             <div class="background-overlay">
                 <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
                 <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
@@ -708,7 +870,10 @@
         </section>
 
         <!-- Calendar Section -->
-        <section class="bg-white shadow-md p-8">
+        <section>
+            <div class="texto-calendar text-center mb-8">
+                <h1>AGENDAMENTO</h1>
+            </div>
             <div class="container-calendar">
                 <div class="left">
                     <div class="calendar">
@@ -742,8 +907,8 @@
                 </div>
                 <div class="right">
                     <div class="today-date">
-                        <div class="event-day">Qua</div>
-                        <div class="event-date">16 November 2024</div>
+                        <div class="event-day"></div>
+                        <div class="event-date"></div>
                     </div>
                     <div class="events">
                         <!--add eventos no JS-->
@@ -786,7 +951,7 @@
         </section>
 
         <!-- Products Section -->
-        <section class="products-section">
+        <section class="products-section mb-150">
             <h2>NOSSOS PRODUTOS ESPECIALIZADOS</h2>
             <div class="product-card">
                 <img src="http://localhost/byteslab/site/images/esmalte-base-coat.png" alt="Base Coat">
@@ -808,6 +973,66 @@
                 <h3>Matte Polish</h3>
                 <p>Blue Paletts / No.5 oz</p>
             </div>
+        </section>
+        
+        <!-- Image Gallery Section -->
+        <section class="products-section mb-150">
+            <h2>GALERIA DE IMAGENS</h2>
+            <div class="container-imagem">
+                <?php
+                $images = [
+                    "NailPhotos/imagem1.jpeg",  //imagens que foram enviadas
+                    "NailPhotos/imagem3.jpeg",
+                    "NailPhotos/imagem4.jpeg",
+                    "NailPhotos/imagem5.jpeg",
+                    "NailPhotos/imagem6.jpeg",
+                    "NailPhotos/imagem7.jpeg"
+                ];
+
+                foreach ($images as $image) {
+                    echo '<div class="image-item-imagem">';
+                    echo '<img src="' . $image . '" alt="Image">';
+                    echo '<div class="overlay-imagem">
+                            <a href="https://www.instagram.com/JOELMAALPINOOFICIAL" target="_blank">
+                                @JOELMAALPINOOFICIAL
+                                <img src="NailPhotos/insta.png" alt="Instagram">
+                            </a>
+                        </div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </section>
+
+        <!-- Logo Section -->
+        <section>
+                    <figure class="logo">
+                    <img src="images/logo.svg" alt="Logo Joelma Alpino" id="logo">
+                </figure>
+                <!-- Conteúdo principal da página -->
+                <main class="main-content">
+                    <!-- Título da página -->
+                    <div class="text-content">
+                        <h1>Joelma Alpino</h1>
+                        <p class="subtitle">Nail Designer</p>
+                    </div>
+                </main>
+                <!-- Linha divisória entre o conteúdo principal e o rodapé -->
+                <div class="divider"></div>
+                <!-- Rodapé da página com informações pessoais -->
+                <footer class="footer">
+                    <p>Contato: (16) 992023956</p>
+                    <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                        </svg>
+                        @joelmaalpinooficial
+                    </p>
+                    <p>Endereço: Rua Daniel Kujawski - 309 - Ribeirão Preto</p>
+                </footer>
+                <script src="js/script.js"></script>
+            </body>
+            </html>
         </section>
     </main>
     <script src="script-calendar.js"></script>
