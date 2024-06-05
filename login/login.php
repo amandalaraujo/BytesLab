@@ -165,9 +165,6 @@ $senha_cookie = isset($_COOKIE['senha']) ? $_COOKIE['senha'] : '';
                 <img class="imglogin-img" src="./login-tela.jpg" alt="Login Image">
             </div>
             <div class="login-content">
-                <?php if (isset($erro)): ?>
-                    <p style="color: red;"><?= $erro ?></p>
-                <?php endif; ?>
                 <h1 class="text-2xl font-bold mb-4">Entrar</h1>
                 <p class="text-gray-600 mb-6">Olá, Bem Vinda! 👋</p>
                 <div class="mb-4">
@@ -190,6 +187,9 @@ $senha_cookie = isset($_COOKIE['senha']) ? $_COOKIE['senha'] : '';
                     <span class="text-gray-500" style="width: 400px;">Entrar com E-mail</span>
                     <span class="block h-px w-full bg-gray-300"></span>
                 </div>
+                <?php if (isset($erro)): ?>
+                    <p style="color: red;"><?= $erro ?></p>
+                <?php endif; ?>
                 <form class="space-y-4" action="validacao-login.php" method="POST">
                     <div class="inputBox">
                         <input type="text" name="email" id="email" class="inputUser" value="<?= $email_cookie; ?>" required>

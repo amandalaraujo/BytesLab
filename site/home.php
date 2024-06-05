@@ -786,6 +786,164 @@
             text-align: right; /* Garante que o texto está alinhado à direita */
         }
 
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            margin-left: 10px;
+        }
+
+        #total-price,
+        #total-duration {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #f76a92;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #f45a81;
+        }
+
+        /* carrinho */
+        .modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+    }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            margin-top: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        #cart-popup {
+        width: 250px;
+            }
+
+        #cart-notification {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #cart-popup-items .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        #cart-popup {
+            width: auto;
+            height: auto;
+            transition: all 0.3s ease;
+        }
+
+        #cart-icon i {
+            color: #000;
+        }
+
+        #cart-details {
+            display: none;
+        }
+
+        #cart-popup .hidden {
+            display: none;
+
+        }
+
+        .cart-popup-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .cart-notification {
+            display: none;
+        }
+
+
     </style>
 
 </head>
@@ -799,6 +957,7 @@
                     <a href="#" style="font-family:Inter;" class="text-gray-500 hover:text-pink-500">SERVIÇOS</a>
                     <a href="#" style="font-family:Inter;" class="text-gray-500 hover:text-pink-500">AGENDAMENTO</a>
                     <a href="#" style="font-family:Inter;" class="text-gray-500 hover:text-pink-500">CONTATO</a>
+                    <a href="#" onclick="openCart()" class="text-gray-700 hover:text-pink-500">CARRINHO</a>
                 </nav>
             </div>
         </div>
@@ -827,7 +986,7 @@
             </div>
         </section>
 
-        <!-- Services Section -->
+        <!-- Diferences Section -->
         <section style="height: 500px;" class=" bg-white shadow-md p-8 mb-150">
             <div class="flex flex-col md:flex-row justify-around items-center">
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
@@ -847,20 +1006,21 @@
                 </div>
             </div>
         </section>
-        <!-- New Section -->
+
+        <!-- Services Section -->
         <section style="height: 500px;" class="new-section mb-150">
             <div class="background-overlay">
                 <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
                 <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
             </div>
-            <div class="card">
+            <div class="card" onclick="openModal('gel')">
                 <img src="http://localhost/byteslab/site/images/unhasGel.jpeg" alt="Unhas em Gel" class="fit-image">
                 <div class="card-text">
                     <span class="outlined-text">UNHAS EM GEL</span>
                     <br>TABELA DE VALORES
                 </div>
             </div>
-            <div class="card">
+            <div class="card" onclick="openModal('tradicional')">
                 <img src="http://localhost/byteslab/site/images/unhasTradicionais.jpeg" alt="Unhas Tradicionais" class="fit-image">
                 <div class="card-text">
                     <span class="outlined-text">UNHAS TRADICIONAIS</span>
@@ -869,11 +1029,98 @@
             </div>
         </section>
 
-        <!-- Calendar Section -->
-        <section>
-            <div class="texto-calendar text-center mb-8">
-                <h1>AGENDAMENTO</h1>
+        <!-- Modal Unhas em Gel -->
+        <div id="gel-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2">
+                <span class="close text-gray-500 cursor-pointer text-2xl" onclick="closeModal('gel')">&times;</span>
+                <h2 class="text-2xl font-semibold mb-4">Unhas em Gel - Tabela de Valores</h2>
+                <form id="gel-form">
+                    <div class="mb-4">
+                        <input type="checkbox" id="mao" data-duration="90" data-price="100" class="mr-2">
+                        <label for="mao">Mão - 1h30 - R$100</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="pe" data-duration="60" data-price="80" class="mr-2">
+                        <label for="pe">Pé - 1h - R$80</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="francesinha" data-duration="15" data-price="20" class="mr-2">
+                        <label for="francesinha">Francesinha Pé e Mão - 15min cada - R$20</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="pe-encravado" data-duration="120" data-price="150" class="mr-2">
+                        <label for="pe-encravado">Pé Encravado – 2h - R$150</label>
+                    </div>
+                    <!-- Adicione mais serviços conforme necessário -->
+                </form>
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold">Total:</h3>
+                    <p id="total-price" class="text-lg">R$0,00</p>
+                    <p id="total-duration" class="text-lg">0 horas</p>
+                </div>
+                <button class="mt-4 bg-pink-500 text-white py-2 px-4 rounded" onclick="adicionarCarrinho('gel')">Adicionar ao Carrinho</button>
             </div>
+        </div>
+
+        <!-- Modal Unhas Tradicionais -->
+        <div id="tradicional-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2">
+                <span class="close text-gray-500 cursor-pointer text-2xl" onclick="closeModal('tradicional')">&times;</span>
+                <h2 class="text-2xl font-semibold mb-4">Unhas Tradicionais - Tabela de Valores</h2>
+                <form id="tradicional-form">
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao-21d" data-duration="120" data-price="90" class="mr-2">
+                        <label for="manutencao-21d">Manutenção de até 21 dias – 2h - R$90</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao-apos-21d" data-duration="150" data-price="110" class="mr-2">
+                        <label for="manutencao-apos-21d">Manutenção Após 21 dias – 2h30 - R$110</label>
+                    </div>
+                    <!-- Adicione mais serviços conforme necessário -->
+                </form>
+                <div class="mt-6">
+                    <h3 class="text-xl font-semibold">Total:</h3>
+                    <p id="total-price-tradicional" class="text-lg">R$0,00</p>
+                    <p id="total-duration-tradicional" class="text-lg">0 horas</p>
+                </div>
+                <button class="mt-4 bg-pink-500 text-white py-2 px-4 rounded" onclick="adicionarCarrinho('tradicional')">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+
+        <!-- Modal Carrinho -->
+        <div id="cart-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+            <div class="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2 relative">
+                <span class="close text-gray-500 cursor-pointer text-2xl absolute top-4 right-4" onclick="closeCart()">&times;</span>
+                <h2 class="text-2xl font-semibold mb-4">Carrinho de Serviços</h2>
+                <div id="cart-items" class="modal-body"></div>
+                <div class="modal-footer">
+                    <button class="mt-4 bg-pink-500 text-white py-2 px-4 rounded" onclick="finalizarCompra()">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cart Popup -->
+        <div id="cart-popup" class="fixed bottom-0 right-0 bg-white shadow-lg p-4 m-4 hidden" style="width: 300px;">
+            <h3 class="text-xl font-semibold mb-2">Carrinho</h3>
+            <div id="cart-popup-items"></div>
+            <div class="mt-4 flex justify-end">
+                <button class="px-4 py-2 bg-pink-500 text-white rounded" onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+        </div>
+
+
+        <!-- Cart Icon -->
+        <div id="cart-icon" class="fixed bottom-4 right-4 bg-pink-500 text-white rounded-full p-4 cursor-pointer" onclick="toggleCartDetails()">
+            <i class="fas fa-shopping-cart text-2xl"></i>
+            <span class="cart-notification absolute top-0 right-0 bg-red-500 text-white rounded-full px-2" style="display:none;"></span>
+        </div>
+
+       <!-- Calendar Section -->
+        <section>
+            <div class=" mb-8">
+                <h1 style="font-family: Cormorant Garamond; font-size: 50px;">AGENDAMENTO</h1>
+            </div>
+            <span style="font-family: Cormorant Garamond; color: #A27758; font-size: 30px"> Escolha sua Data! </span>
             <div class="container-calendar">
                 <div class="left">
                     <div class="calendar">
@@ -915,13 +1162,13 @@
                     </div>
                     <div class="add-event-wrapper">
                         <div class="add-event-header">
-                            <div class="title">Adicionar Evento</div>
+                            <div class="title">Adicionar Agendamento</div>
                             <i class="fas fa-times close"></i>
                         </div>
                         <!--inicio da div eventos-->
                         <div class="add-event-body">
                             <div class="add-event-input">
-                                <input type="text" placeholder="Nome do Evento" class="event-name"/>
+                                <textarea placeholder="Procedimentos do agendamento" class="event-name"></textarea>
                             </div>
                             <div class="add-event-input">
                                 <input 
@@ -940,7 +1187,7 @@
                             <!--fim da div eventos-->
                         </div>
                         <div class="add-event-footer">
-                            <button class="add-event-btn">salvar evento</button>
+                            <button class="add-event-btn">Salvar Agendamento</button>
                         </div>
                     </div>
                 </div>
@@ -949,6 +1196,8 @@
                 </button>
             </div>
         </section>
+
+
 
         <!-- Products Section -->
         <section class="products-section mb-150">
@@ -995,7 +1244,7 @@
                     echo '<div class="overlay-imagem">
                             <a href="https://www.instagram.com/JOELMAALPINOOFICIAL" target="_blank">
                                 @JOELMAALPINOOFICIAL
-                                <img src="NailPhotos/insta.png" alt="Instagram">
+                                <img src="NailPhotos/instagram.svg" alt="Instagram">
                             </a>
                         </div>';
                     echo '</div>';
