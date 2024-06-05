@@ -439,7 +439,7 @@ function updateEvents(date){
     //if -> evento não encontrado
     if(events === ""){
         events = `<div class="no-event">
-            <h3>Sem eventos</h3>
+            <h3>Sem agendamentos</h3>
         </div>`;
     }
 
@@ -489,3 +489,324 @@ function getEvents() {
     }
     eventsArr = JSON.parse(localStorage.getItem("events"));
 }
+
+
+
+// Javascrip de Produtos 
+
+function openModal(type) {
+    document.getElementById(type + '-modal').classList.remove('hidden');
+}
+
+function closeModal(type) {
+    document.getElementById(type + '-modal').classList.add('hidden');
+}
+
+function calcularTotal(formId, priceId, durationId) {
+    const form = document.getElementById(formId);
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+    let totalPrice = 0;
+    let totalDuration = 0;
+
+    checkboxes.forEach(checkbox => {
+        totalPrice += parseFloat(checkbox.dataset.price);
+        totalDuration += parseFloat(checkbox.dataset.duration);
+    });
+
+    document.getElementById(priceId).innerText = `R$${totalPrice.toFixed(2)}`;
+    const hours = Math.floor(totalDuration / 60);
+    const minutes = totalDuration % 60;
+    document.getElementById(durationId).innerText = `${hours} horas ${minutes} minutos`;
+}
+
+function adicionarCarrinho(type) {
+    const formId = type + '-form';
+    const form = document.getElementById(formId);
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    checkboxes.forEach(checkbox => {
+        const service = {
+            id: checkbox.id,
+            title: checkbox.nextElementSibling.innerText,
+            price: parseFloat(checkbox.dataset.price),
+            duration: parseFloat(checkbox.dataset.duration)
+        };
+        carrinho.push(service);
+    });
+
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    updateCartNotification();
+    updateCartPopup();
+    closeModal(type);
+}
+
+function openCart() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const cartContainer = document.getElementById('cart-items');
+    cartContainer.innerHTML = '';
+
+    let totalPrice = 0;
+    let totalDuration = 0;
+
+    if (carrinho.length > 0) {
+        carrinho.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-item');
+            itemElement.innerHTML = `
+                <p>${item.title}</p>
+                <p>R$${item.price.toFixed(2)}</p>
+                <p>${Math.floor(item.duration / 60)} horas ${item.duration % 60} minutos</p>
+            `;
+            cartContainer.appendChild(itemElement);
+
+            totalPrice += item.price;
+            totalDuration += item.duration;
+        });
+
+        const totalElement = document.createElement('div');
+        totalElement.classList.add('cart-total');
+        totalElement.innerHTML = `
+            <h3>Total</h3>
+            <p>R$${totalPrice.toFixed(2)}</p>
+            <p>${Math.floor(totalDuration / 60)} horas ${totalDuration % 60} minutos</p>
+        `;
+        cartContainer.appendChild(totalElement);
+    } else {
+        cartContainer.innerHTML = '<p>Seu carrinho está vazio.</p>';
+    }
+
+    document.getElementById('cart-modal').classList.remove('hidden');
+}
+
+function closeCart() {
+    document.getElementById('cart-modal').classList.add('hidden');
+}
+
+function updateCartNotification() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const cartNotification = document.querySelector('.cart-notification');
+    cartNotification.innerText = carrinho.length;
+    cartNotification.style.display = carrinho.length > 0 ? 'block' : 'none';
+}
+
+function updateCartPopup() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const cartPopupItems = document.getElementById('cart-popup-items');
+    const cartNotification = document.querySelector('.cart-notification');
+    cartPopupItems.innerHTML = '';
+
+    if (carrinho.length > 0) {
+        cartNotification.innerText = carrinho.length;
+        cartNotification.style.display = 'block';
+
+        carrinho.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-popup-item');
+            itemElement.innerHTML = `
+                <p>${item.title}</p>
+                <p>R$${item.price.toFixed(2)}</p>
+                <p>${Math.floor(item.duration / 60)}h ${item.duration % 60}m</p>
+            `;
+            cartPopupItems.appendChild(itemElement);
+        });
+    } else {
+        cartNotification.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    clearCart(); // Limpar carrinho ao carregar a página
+    updateCartNotification();
+    updateCartPopup();
+});
+
+document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+        if (this.closest('#gel-form')) {
+            calcularTotal('gel-form', 'total-price', 'total-duration');
+        } else if (this.closest('#tradicional-form')) {
+            calcularTotal('tradicional-form', 'total-price-tradicional', 'total-duration-tradicional');
+        }
+    });
+});
+
+window.onclick = function (event) {
+    if (event.target.className.includes('fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50')) {
+        event.target.classList.add('hidden');
+    }
+}
+
+function finalizarCompra() {
+    alert('Compra finalizada com sucesso!');
+    localStorage.removeItem('carrinho');
+    closeCart();
+    updateCartNotification();
+    updateCartPopup();
+}
+
+function addToCart(item) {
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    carrinho.push(item);
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+    updateCartNotification();
+    updateCartPopup();
+}
+
+function openAddEventForm() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const eventNameField = document.querySelector('.event-name');
+    eventNameField.value = '';
+
+    if (carrinho.length > 0) {
+        carrinho.forEach(item => {
+            eventNameField.value += `${item.title}\n`;
+        });
+    }
+
+    document.querySelector('.add-event-wrapper').classList.add('active');
+}
+
+// Evento para abrir o formulário de adicionar evento
+addEventBtn.addEventListener('click', openAddEventForm);
+
+addEventSubmit.addEventListener("click", () => {
+    const eventNameField = document.querySelector('.event-name');
+    const eventProcedures = eventNameField.value;
+    const eventTimeFrom = addEventFrom.value;
+    const eventTimeTo = addEventTo.value;
+
+    //some validations
+    if(eventProcedures === "" || eventTimeFrom === "" || eventTimeTo === "") {
+        alert("Por favor preencha todos os campos");
+        return;
+    }
+
+    const timeFromArr = eventTimeFrom.split(":");
+    const timeToArr = eventTimeTo.split(":");
+
+    if(
+        timeFromArr.length !== 2 ||
+        timeToArr.length !== 2 ||
+        timeFromArr[0] > 23 ||
+        timeFromArr[1] > 59 ||
+        timeToArr[0] > 23 ||
+        timeToArr[1] > 59
+    ) {
+        alert("Formato de hora inválido");
+        return;
+    }
+
+    const timeFrom = convertTime(eventTimeFrom);
+    const timeTo = convertTime(eventTimeTo);
+
+    const newEvent = {
+        title: eventProcedures,
+        time: timeFrom + " - " + timeTo,
+    };
+
+    let eventAdded = false;
+
+    //check if eventarr not empty
+    if(eventsArr.length > 0){
+        //check if current day has already any then add to that
+        eventsArr.forEach((item) => {
+            if(
+                item.day === activeDay &&
+                item.month === month + 1 &&
+                item.year === year
+            ) {
+                item.events.push(newEvent);
+                eventAdded = true;
+            }
+        });
+    }
+
+    //if event array or current day has no event create new
+    if(!eventAdded){
+        eventsArr.push({
+            day: activeDay,
+            month: month + 1,
+            year: year,
+            events: [newEvent],
+        });
+    }
+
+    //remove active from add event form
+    addEventContainer.classList.remove("active");
+    //clear the fields
+    eventNameField.value = "";
+    addEventFrom.value = "";
+    addEventTo.value = "";
+
+    //show current added event
+    updateEvents(activeDay);
+});
+
+function convertTime(time){
+    let timeArr = time.split(":");
+    let timeHour = timeArr[0];
+    let timeMin = timeArr[1];
+    let timeFormat = timeHour >= 12 ? "PM" : "AM";
+    timeHour = timeHour % 12 || 12;
+    time = timeHour + ":" + timeMin + " " + timeFormat;
+    return time;
+}
+
+function clearCart() {
+    localStorage.removeItem('carrinho');
+    updateCartNotification();
+    updateCartPopup();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    clearCart();
+    updateCartNotification();
+    updateCartPopup();
+});
+
+function toggleCartDetails() {
+    const cartDetails = document.getElementById('cart-details');
+    const cartIcon = document.getElementById('cart-icon');
+
+    if (cartDetails.classList.contains('hidden')) {
+        cartDetails.classList.remove('hidden');
+        cartIcon.classList.add('hidden');
+    } else {
+        cartDetails.classList.add('hidden');
+        cartIcon.classList.remove('hidden');
+    }
+}
+
+function updateCartPopup() {
+    const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+    const cartPopupItems = document.getElementById('cart-popup-items');
+    const cartNotification = document.querySelector('.cart-notification');
+    cartPopupItems.innerHTML = '';
+
+    if (carrinho.length > 0) {
+        cartNotification.innerText = carrinho.length;
+        cartNotification.style.display = 'block';
+
+        carrinho.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-popup-item');
+            itemElement.innerHTML = `
+                <p>${item.title}</p>
+                <p>R$${item.price.toFixed(2)}</p>
+                <p>${Math.floor(item.duration / 60)}h ${item.duration % 60}m</p>
+            `;
+            cartPopupItems.appendChild(itemElement);
+        });
+    } else {
+        cartNotification.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartNotification();
+    updateCartPopup();
+});
+
+///////////////////////////////////////////
+
