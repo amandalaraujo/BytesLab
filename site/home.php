@@ -1,3 +1,29 @@
+<?php
+include 'config.php'; // Inclui sua conexão com o banco de dados
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $cod_usuario = $_POST['cod_usuario'];
+    $data_agendamento = $_POST['data_agendamento'];
+    $hora_inicio = $_POST['hora_inicio'];
+    $hora_termino = $_POST['hora_termino'];
+    $cod_servico = $_POST['cod_servico'];
+    $valor = $_POST['valor'];
+    $tempo_procedimento = $_POST['tempo_procedimento'];
+
+    // Preparar a SQL statement para inserção
+    $stmt = $pdo->prepare("INSERT INTO agendamentos (cod_usuario, data_agendamento, hora_inicio, hora_termino) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$cod_usuario, $data_agendamento, $hora_inicio, $hora_termino]);
+
+    $cod_agendamento = $pdo->lastInsertId(); // Pega o ID do agendamento inserido
+
+    // Inserir na tabela associativa
+    $stmt = $pdo->prepare("INSERT INTO agendamento_servicos (cod_agendamento, cod_servico, quantidade, valor_total) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$cod_agendamento, $cod_servico, 1, $valor]); // Assumindo que a quantidade é sempre 1
+
+    echo "Agendamento realizado com sucesso!";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
