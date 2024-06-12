@@ -1062,21 +1062,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2 class="text-2xl font-semibold mb-4">Unhas em Gel - Tabela de Valores</h2>
                 <form id="gel-form">
                     <div class="mb-4">
-                        <input type="checkbox" id="mao" data-duration="90" data-price="100" class="mr-2">
-                        <label for="mao">Mão - 1h30 - R$100</label>
-                    </div>
-                    <div class="mb-4">
-                        <input type="checkbox" id="pe" data-duration="60" data-price="80" class="mr-2">
-                        <label for="pe">Pé - 1h - R$80</label>
-                    </div>
-                    <div class="mb-4">
                         <input type="checkbox" id="francesinha" data-duration="15" data-price="20" class="mr-2">
-                        <label for="francesinha">Francesinha Pé e Mão - 15min cada - R$20</label>
+                        <label for="francesinha">Francesinha Mão - 15min - R$20</label>
+                    </div>
+<<<<<<< Updated upstream
+=======
+                    <div class="mb-4">
+                        <input type="checkbox" id="aplicacao-alongamento" data-duration="150" data-price="200" class="mr-2">
+                        <label for="aplicacao-alongamento">Alongamento em Gel - 2h30 - R$200</label>
                     </div>
                     <div class="mb-4">
-                        <input type="checkbox" id="pe-encravado" data-duration="120" data-price="150" class="mr-2">
-                        <label for="pe-encravado">Pé Encravado – 2h - R$150</label>
+                        <input type="checkbox" id="manutencao-ate21d" data-duration="120" data-price="137" class="mr-2">
+                        <label for="manutencao-ate21d">Manutenção de até 21 dias – 2h - R$137</label>
                     </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao-apos21d" data-duration="150" data-price="158" class="mr-2">
+                        <label for="manutencao-apos21d">Manutenção Após 21 dias – 2h30 - R$158</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao-apos51d" data-duration="150" data-price="200" class="mr-2">
+                        <label for="manutencao-apos51d">Manutenção Após 50 dias – 2h30 - R$200</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="banho-gel" data-duration="120" data-price="137" class="mr-2">
+                        <label for="banho-gel">Banho em Gel – 2h - R$137</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="banhogel-estruturado" data-duration="120" data-price="158" class="mr-2">
+                        <label for="banhogel-estruturado">Banho em Gel Estruturado – 2h - R$158</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao" data-duration="90" data-price="70" class="mr-2">
+                        <label for="manutencao">Manutenção - 1h30 - R$70</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="esmaltacaogel-unhaGel" data-duration="30" data-price="42" class="mr-2">
+                        <label for="esmaltacaogel-unhaGel">Esmaltação em Gel em Unha Gel - 30min - R$42</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="retirar-alongamento" data-duration="20" data-price="53" class="mr-2">
+                        <label for="retirar-alongamento">Retirar Alongamento – 20min - R$53</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="retirar-esmaltacao" data-duration="20" data-price="32" class="mr-2">
+                        <label for="retirar-esmaltacao">Retirar Esmaltação em Gel – 20min - R$32</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="nail-art" data-duration="20min" data-price="32" class="mr-2">
+                        <label for="nail-art">Nail Art – 20min - R$32</label>
+                    </div>
+            
+>>>>>>> Stashed changes
                     <!-- Adicione mais serviços conforme necessário -->
                 </form>
                 <div class="mt-6">
@@ -1102,6 +1138,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="checkbox" id="manutencao-apos-21d" data-duration="150" data-price="110" class="mr-2">
                         <label for="manutencao-apos-21d">Manutenção Após 21 dias – 2h30 - R$110</label>
                     </div>
+<<<<<<< Updated upstream
+=======
+                    <div class="mb-4">
+                        <input type="checkbox" id="manutencao-apos-21d" data-duration="150" data-price="110" class="mr-2">
+                        <label for="manutencao-apos-21d">Manutenção Após 50 dias – 2h30 - R$200</label>
+    
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="encurtarAlongamento-Banho" data-duration="15" data-price="15" class="mr-2">
+                        <label for="encurtarAlongamento-Banho">Encurtar Alongamento ou Banho Gel no dia de Unha Natural – 15min - R$15</label>
+                    </div>
+>>>>>>> Stashed changes
                     <!-- Adicione mais serviços conforme necessário -->
                 </form>
                 <div class="mt-6">
