@@ -15,11 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $cod_agendamento = $pdo->lastInsertId(); // Pega o ID do agendamento inserido
 
-    // Inserir na tabela associativa
-    $stmt = $pdo->prepare("INSERT INTO agendamento_servicos (cod_agendamento, cod_servico, quantidade, valor_total) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$cod_agendamento, $cod_servico, 1, $valor]); // Assumindo que a quantidade é sempre 1
+    header('Content-Type: application/json');
 
-    echo "Agendamento realizado com sucesso!";
+    $sql = "SELECT * FROM servicos"; // Substitua 'servicos' pelo nome real da sua tabela
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($services);
 }
 ?>
 
@@ -37,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style-calendar.css"/>
     <link 
         rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
@@ -45,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         crossorigin="anonymous" 
         referrerpolicy="no-referrer" 
     />
+ 
     <style>
         /* Estilos existentes */
         .custom-arch {
@@ -993,7 +997,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2 style="font-size: 50px; font-family:Cormorant Garamond" class="text-2xl font-semibold text-cinza mb-4">Unhas <br><br> um caso de <span style="font-family:Corinthia; font-size:80px;" class="text-pink-300">amor</span> <br> <br> por elas!</h2> <br>
                 <p class=" text-gray-500 mb-4 highlight">
                     <span style="font-family: Corinthia; font-size:40px;" class="font-semibold text-pink-300">Nossa </span> <span style="font-family: Cormorant Garamond;font-weight: bold;font-size: 30px;">Trajetória</span><br>
-                    A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha A Trajetória da Joelha.
+                    Olá, sou Joelma Alpino, nail designer com anos de experiência e especialista em alongamentos de unhas. Meu foco é transformar suas unhas em verdadeiras obras de arte, utilizando técnicas como gel, acrílico e fibra de vidro. Participei de diversos cursos e workshops para me manter atualizada com as últimas tendências e inovações no mundo das unhas. 
                 </p>
                 <button  class="text-gray-500 btn-outline">
                     Agende um horário
@@ -1012,7 +1016,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
 
         <!-- Diferences Section -->
-        <section style="height: 500px;" class=" bg-white shadow-md p-8 mb-150">
+        <section style="height: 300px;" class=" bg-white shadow-md p-8 mb-150">
             <div class="flex flex-col md:flex-row justify-around items-center">
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
                     <img src="http://localhost/byteslab/byteslab/site/images/cuidadosunhas.png" alt="Cuidados com sua unha" class="w-full h-32 object-cover mb-4">
@@ -1033,7 +1037,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
 
         <!-- Services Section -->
-        <section style="height: 500px;" class="new-section mb-150">
+        <section style="height: 500px;" class="new-section">
             <div class="background-overlay">
                 <img src="http://localhost/byteslab/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
                 <img src="http://localhost/byteslab/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
@@ -1109,6 +1113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="nail-art">Nail Art – 20min - R$32</label>
                     </div>
             
+                    Adicione mais serviços conforme necessário
                     <!-- Adicione mais serviços conforme necessário -->
                 </form>
                 <div class="mt-6">
@@ -1194,12 +1199,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <span class="cart-notification absolute top-0 right-0 bg-red-500 text-white rounded-full px-2" style="display:none;"></span>
         </div>
 
-       <!-- Calendar Section -->
+        <!-- Container para o calendário -->
         <section>
-            <div class=" mb-8">
-                <h1 style="font-family: Cormorant Garamond; font-size: 50px;">AGENDAMENTO</h1>
+            <div class="mb-8">
+                <h1 style="font-family: Cormorant Garamond; font-size: 50px; font-weight: 700;">AGENDAMENTO</h1>
             </div>
-            <span style="font-family: Cormorant Garamond; color: #A27758; font-size: 30px"> Escolha sua Data! </span>
+            <span style="font-family: Cormorant Garamond; color: #A27758; font-size: 30px; font-weight: 700;">Escolha sua Data!</span>
             <div class="container-calendar">
                 <div class="left">
                     <div class="calendar">
@@ -1208,7 +1213,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="date"></div>
                             <i class="fa fa-angle-right next"></i>
                         </div>
-                        <!--div dos meses-->
                         <div class="weekdays">
                             <div>dom</div>
                             <div>seg</div>
@@ -1218,10 +1222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div>sex</div>
                             <div>sáb</div>
                         </div>
-                        <!--div dos dias-->
-                        <div class="days">
-                            <!--days adicionado no JS-->
-                        </div>
+                        <div class="days"></div>
                         <div class="goto-today">
                             <div class="goto">
                                 <input type="text" placeholder="mm/yyyy" class="date-input">
@@ -1236,34 +1237,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="event-day"></div>
                         <div class="event-date"></div>
                     </div>
-                    <div class="events">
-                        <!--add eventos no JS-->
-                    </div>
+                    <div class="events"></div>
                     <div class="add-event-wrapper">
                         <div class="add-event-header">
                             <div class="title">Adicionar Agendamento</div>
-                            <i class="fas fa-times close"></i>
+                            <i class="fas fa-times close"></i>detalhes
                         </div>
-                        <!--inicio da div eventos-->
                         <div class="add-event-body">
                             <div class="add-event-input">
-                                <textarea placeholder="Procedimentos do agendamento" class="event-name"></textarea>
+                                <textarea placeholder="Procedimentos do agendamento" class="event-name" rows="4"></textarea>
                             </div>
                             <div class="add-event-input">
-                                <input 
-                                type="text" 
-                                placeholder="Horário inicial" 
-                                class="event-time-from"
-                                />
+                                <input type="text" placeholder="Horário inicial" class="event-time-from"/>
                             </div>
                             <div class="add-event-input">
-                                <input 
-                                type="text" 
-                                placeholder="Horário final" 
-                                class="event-time-to"
-                                />
+                                <input type="text" placeholder="Horário final" class="event-time-to"/>
                             </div>
-                            <!--fim da div eventos-->
                         </div>
                         <div class="add-event-footer">
                             <button class="add-event-btn">Salvar Agendamento</button>
@@ -1275,6 +1264,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </button>
             </div>
         </section>
+
+        <!-- Modal de confirmação -->
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <p>Agendamento criado com sucesso!</p>
+            </div>
+        </div>
+
+        <!-- Adicione um estilo CSS básico -->
+        <style>
+ 
+        </style>
+
 
 
 
@@ -1304,8 +1307,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
         
         <!-- Image Gallery Section -->
-        <section class="products-section mb-150">
-            <h2>GALERIA DE IMAGENS</h2>
+        <section class="galery-section mb-150">
             <div class="container-imagem">
                 <?php
                 $images = [

@@ -10,7 +10,15 @@ const calendar = document.querySelector(".calendar"),
     eventDay = document.querySelector(".event-day"),
     eventDate = document.querySelector(".event-date"),
     eventsContainer = document.querySelector(".events"),
-    addEventSubmit = document.querySelector(".add-event-btn");
+    addEventSubmit = document.querySelector(".add-event-btn"),
+    addEventContainer = document.querySelector(".add-event-wrapper"),
+    addEventBtn = document.querySelector(".add-event"),
+    addEventCloseBtn = document.querySelector(".close"),
+    addEventTitle = document.querySelector(".event-name"),
+    addEventFrom = document.querySelector(".event-time-from"),
+    addEventTo = document.querySelector(".event-time-to"),
+    successModal = document.getElementById("successModal"),
+    closeModalBtn = document.querySelector(".close-modal");
 
 let today = new Date();
 let activeDay;
@@ -18,7 +26,7 @@ let month = today.getMonth();
 let year = today.getFullYear();
 
 const months = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
@@ -27,44 +35,19 @@ const daysOfWeek = [
 ];
 
 // Array de eventos entrada padrão para teste:
-// const eventsArr = [
-//     {
-//         day: 26,
-//         month: 5,
-//         year: 2024,
-//         events: [
-//             {
-//                 title: "Event 1 loren ipsun dolar sit tersad dasrs ",
-//                 time: "10:00 AM",
-//             },
-//             {
-//                 title: "Event 2",
-//                 time: "11:00 AM",
-//             },
-//         ],
-//     },
-//     {
-//         day: 28,
-//         month: 5,
-//         year: 2024,
-//         events: [
-//             {
-//                 title: "Event 1 loren ipsun dolar sit tersad dasrs ",
-//                 time: "10:00 AM",
-//             },
-//         ],
-//     },
-// ];
-
-//set a empty array
 let eventsArr = [];
 
-//then call get
+// Array de carrinho com tempo médio para testes
+let cart = [
+    { title: "Esmaltação em Gel", duration: 90 } // 90 minutos = 1h30
+];
+
+// then call get
 getEvents();
 
-//Funcao para adicionar os dias: 
+// Funcao para adicionar os dias:
 function initCalendar() {
-    //para obter os dias do mes e o mes atual todos os dias e os dias do proximo mes
+    // para obter os dias do mes e o mes atual todos os dias e os dias do proximo mes
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const prevLastDay = new Date(year, month, 0);
@@ -73,20 +56,20 @@ function initCalendar() {
     const day = firstDay.getDay();
     const nextDays = 7 - lastDay.getDay() - 1;
 
-    //atualizar data no topo do calendario
+    // atualizar data no topo do calendario
     date.innerHTML = months[month] + " " + year;
 
-    //adicionando dias
+    // adicionando dias
     let days = "";
 
-    //dias do mes anterior
-    for(let x = day; x > 0; x--){
+    // dias do mes anterior
+    for (let x = day; x > 0; x--) {
         days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
     }
 
-    //dias do mes atual
-    for(let i = 1; i <= lastDate; i++){
-        //verificar se o evento esta presente no dia atual
+    // dias do mes atual
+    for (let i = 1; i <= lastDate; i++) {
+        // verificar se o evento esta presente no dia atual
         let event = false;
         eventsArr.forEach((eventObj) => {
             if (
@@ -94,31 +77,31 @@ function initCalendar() {
                 eventObj.month === month + 1 &&
                 eventObj.year === year
             ) {
-                //if -> evento encontrado 
+                // if -> evento encontrado 
                 event = true;
             }
         });
 
         if (
-            i === new Date().getDate() && 
-            year === new Date().getFullYear() && 
+            i === new Date().getDate() &&
+            year === new Date().getFullYear() &&
             month === new Date().getMonth()
         ) {
             activeDay = i;
             getActiveDay(i);
             updateEvents(i);
-            
-            //se o evento for encontrado também adiciona a classe do evento
-            //adiciona o dia ativo na inicialização
-            if (event){
+
+            // se o evento for encontrado também adiciona a classe do evento
+            // adiciona o dia ativo na inicialização
+            if (event) {
                 days += `<div class="day today active event">${i}</div>`;
             } else {
                 days += `<div class="day today active">${i}</div>`;
             }
         }
-        //adicione o restante
+        // adicione o restante
         else {
-            if (event){
+            if (event) {
                 days += `<div class="day event">${i}</div>`;
             } else {
                 days += `<div class="day">${i}</div>`;
@@ -126,44 +109,44 @@ function initCalendar() {
         }
     }
 
-    //dias do proximo mes
-    for(let j = 1; j <= nextDays; j++){
+    // dias do proximo mes
+    for (let j = 1; j <= nextDays; j++) {
         days += `<div class="day next-date">${j}</div>`;
     }
 
     daysContainer.innerHTML = days;
 
-    //adicionar listner apos inicializacao do calendario
+    // adicionar listner apos inicializacao do calendario
     addListner();
 }
 
 initCalendar();
 
-//mes anterior
-function prevMonth(){
+// mes anterior
+function prevMonth() {
     month--;
-    if(month < 0){
+    if (month < 0) {
         month = 11;
         year--;
     }
     initCalendar();
 }
 
-//proximo mes
-function nextMonth(){
+// proximo mes
+function nextMonth() {
     month++;
-    if(month > 11){
+    if (month > 11) {
         month = 0;
         year++;
     }
     initCalendar();
 }
 
-//adicione evento Listnner no dia anterior e no proximo
+// adicione evento Listnner no dia anterior e no proximo
 prev.addEventListener("click", prevMonth);
 next.addEventListener("click", nextMonth);
 
-//permite ir para a data (busca de pesquisa), e ir para o dia de hoje
+// permite ir para a data (busca de pesquisa), e ir para o dia de hoje
 todayBtn.addEventListener("click", () => {
     today = new Date();
     month = today.getMonth();
@@ -172,19 +155,19 @@ todayBtn.addEventListener("click", () => {
 });
 
 dateInput.addEventListener("input", (e) => {
-    //permiti apenas numeros, remove qualquer outra coisa
+    // permiti apenas numeros, remove qualquer outra coisa
     dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-    if(dateInput.value.length === 2){
-        //add uma barra entre os 2 numeros
+    if (dateInput.value.length === 2) {
+        // add uma barra entre os 2 numeros
         dateInput.value += "/";
     }
-    if(dateInput.value.length > 7){
-        //nao permita mais de 7 caracteres
+    if (dateInput.value.length > 7) {
+        // nao permita mais de 7 caracteres
         dateInput.value = dateInput.value.slice(0, 7);
     }
-    //if -> retrocesso pressionado
-    if(e.inputType === "deleteContentBackward"){
-        if(dateInput.value.length === 3){
+    // if -> retrocesso pressionado
+    if (e.inputType === "deleteContentBackward") {
+        if (dateInput.value.length === 3) {
             dateInput.value = dateInput.value.slice(0, 2);
         }
     }
@@ -192,30 +175,23 @@ dateInput.addEventListener("input", (e) => {
 
 gotoBtn.addEventListener("click", gotoDate);
 
-//funcao para ir para a data inserida
-function gotoDate(){
+// funcao para ir para a data inserida
+function gotoDate() {
     const dateArr = dateInput.value.split("/");
-    //validacao da data
-    if(dateArr.length === 2){
-        if(dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4){
+    // validacao da data
+    if (dateArr.length === 2) {
+        if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
             month = dateArr[0] - 1;
             year = dateArr[1];
             initCalendar();
             return;
-        } 
+        }
     }
-    //if -> data invalida
+    // if -> data invalida
     alert("data inválida");
 }
 
-//Eventos:
-const addEventBtn = document.querySelector(".add-event"),
-    addEventContainer = document.querySelector(".add-event-wrapper"),
-    addEventCloseBtn = document.querySelector(".close"),
-    addEventTitle = document.querySelector(".event-name"),
-    addEventFrom = document.querySelector(".event-time-from"),
-    addEventTo = document.querySelector(".event-time-to");
-
+// Eventos:
 addEventBtn.addEventListener("click", () => {
     addEventContainer.classList.toggle("active");
 });
@@ -224,41 +200,40 @@ addEventCloseBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("click", (e) => {
-    //if -> clique fora
-    if(e.target !== addEventBtn && !addEventContainer.contains(e.target)){
+    // if -> clique fora
+    if (e.target !== addEventBtn && !addEventContainer.contains(e.target)) {
         addEventContainer.classList.remove("active");
     }
 });
 
-//permitir apenas 50 caracteres no titulo
+// permitir apenas 50 caracteres no titulo
 addEventTitle.addEventListener("input", (e) => {
     addEventTitle.value = addEventTitle.value.slice(0, 50);
 });
 
-//formato de hora -> De e Ate hora
+// formato de hora -> De e Ate hora
 addEventFrom.addEventListener("input", (e) => {
-    //remover qualquer outro numero
+    // remover qualquer outro numero
     addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-    //se dois numeros forem inseridos, adicao automatica:
-    if(addEventFrom.value.length === 2){
+    // se dois numeros forem inseridos, adicao automatica:
+    if (addEventFrom.value.length === 2) {
         addEventFrom.value += ":";
     }
-    //nao deixe o usuario inserir mais de 5 caracteres
-    if(addEventFrom.value.length > 5){
+    // nao deixe o usuario inserir mais de 5 caracteres
+    if (addEventFrom.value.length > 5) {
         addEventFrom.value = addEventFrom.value.slice(0, 5);
     }
 });
 
-
 addEventTo.addEventListener("input", (e) => {
-    //remover qualquer outro número
+    // remover qualquer outro número
     addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-    //if -> dois numeros inseridos na adicao automatica:
-    if(addEventTo.value.length === 2){
+    // if -> dois numeros inseridos na adicao automatica:
+    if (addEventTo.value.length === 2) {
         addEventTo.value += ":";
     }
-    //nao deixe o usuario inserir mais de 5 caracteres
-    if(addEventTo.value.length > 5){
+    // nao deixe o usuario inserir mais de 5 caracteres
+    if (addEventTo.value.length > 5) {
         addEventTo.value = addEventTo.value.slice(0, 5);
     }
 });
@@ -268,45 +243,45 @@ addEventSubmit.addEventListener("click", () => {
     const eventTimeFrom = addEventFrom.value;
     const eventTimeTo = addEventTo.value;
 
-    //validacao
-    if(eventTitle === "" || eventTimeFrom === "" || eventTimeTo === ""){
+    // validacao
+    if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
         alert("Por favor, preencha todos os campos");
         return;
     }
 
-    //validacao de tempo correto
+    // validacao de tempo correto
     const timeFromArr = eventTimeFrom.split(":");
     const timeToArr = eventTimeTo.split(":");
-    if(timeFromArr.length !== 2 || timeToArr.length !== 2 || timeFromArr[0] > 23 || timeFromArr[1] > 59 || timeToArr[0] > 23 || timeToArr[1] > 59){
+    if (timeFromArr.length !== 2 || timeToArr.length !== 2 || timeFromArr[0] > 23 || timeFromArr[1] > 59 || timeToArr[0] > 23 || timeToArr[1] > 59) {
         alert("Formato de hora inválido");
         return;
     }
 
-    //verifica a hora 
+    // verifica a hora 
     const timeFrom = convertTime(eventTimeFrom);
     const timeTo = convertTime(eventTimeTo);
 
     const newEvent = {
         title: eventTitle,
-        time: timeFrom + " - " + timeTo,
+        time: timeFrom.time + " - " + timeTo.time,
     };
 
     let eventAdded = false;
-    if(eventsArr.length > 0){
+    if (eventsArr.length > 0) {
         eventsArr.forEach((item) => {
-            if(
+            if (
                 item.day === activeDay &&
                 item.month === month + 1 &&
                 item.year === year
-            ){
+            ) {
                 item.events.push(newEvent);
                 eventAdded = true;
             }
         });
     }
 
-    //if -> evento nao encontrado, adicionar novo evento no array de eventos
-    if(!eventAdded){
+    // if -> evento nao encontrado, adicionar novo evento no array de eventos
+    if (!eventAdded) {
         eventsArr.push({
             day: activeDay,
             month: month + 1,
@@ -320,106 +295,123 @@ addEventSubmit.addEventListener("click", () => {
     addEventFrom.value = "";
     addEventTo.value = "";
 
-    //atualizar o evento no localStorage
+    // atualizar o evento no localStorage
     localStorage.setItem("events", JSON.stringify(eventsArr));
 
-    //exibir evento adicionado
+    // exibir evento adicionado
     updateEvents(activeDay);
 
-    //adicionar a classe de evento
+    // adicionar a classe de evento
     const activeDayEl = document.querySelector(".day.active");
-    if(!activeDayEl.classList.contains("event")){
+    if (!activeDayEl.classList.contains("event")) {
         activeDayEl.classList.add("event");
     }
+
+    // Exibir modal de confirmação
+    successModal.style.display = "block";
 });
 
-//função para obter hora formatada
-function convertTime(time){
+// função para obter hora formatada
+function convertTime(time) {
     let timeArr = time.split(":");
-    let timeHour = timeArr[0];
-    let timeMin = timeArr[1];
+    let timeHour = parseInt(timeArr[0]);
+    let timeMin = parseInt(timeArr[1]);
     let timeFormat = timeHour >= 12 ? "PM" : "AM";
     timeHour = timeHour % 12 || 12;
-    time = timeHour + ":" + timeMin + " " + timeFormat;
-    return time;
+    return { time: timeHour + ":" + timeMin + " " + timeFormat, hour: timeHour, minute: timeMin, format: timeFormat };
 }
 
-//funcao para adicionar listner de clique nos dias apos renderizar os dias
+// função para calcular o horário final com base no tempo médio do carrinho
+function calculateEndTime(startTime, duration) {
+    let [hours, minutes] = startTime.split(':').map(Number);
+    let endHours = hours + Math.floor(duration / 60);
+    let endMinutes = minutes + (duration % 60);
+    if (endMinutes >= 60) {
+        endHours += 1;
+        endMinutes -= 60;
+    }
+    return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+}
+
+// função para adicionar listner de clique nos dias apos renderizar os dias
 function addListner() {
     const days = document.querySelectorAll(".day");
     days.forEach((day) => {
         day.addEventListener("click", (e) => {
-            //atualizar o evento ativo (remover o evento ativo anterior)
+            // atualizar o evento ativo (remover o evento ativo anterior)
             activeDay = Number(e.target.innerHTML);
             getActiveDay(e.target.innerHTML);
             updateEvents(Number(e.target.innerHTML));
 
-            //remover classe ativa de outros dias
+            // remover classe ativa de outros dias
             days.forEach((day) => {
                 day.classList.remove("active");
             });
 
-            //se o dia do mes anterior for clicado, mude para o mes anterior
-            if(e.target.classList.contains("prev-date")){
+            // se o dia do mes anterior for clicado, mude para o mes anterior
+            if (e.target.classList.contains("prev-date")) {
                 prevMonth();
 
-                //adicionar classe ativa ao dia correto apos mudar de mes
+                // adicionar classe ativa ao dia correto apos mudar de mes
                 setTimeout(() => {
-                    //selecionar todos os dias atuais
+                    // selecionar todos os dias atuais
                     const days = document.querySelectorAll(".day");
                     days.forEach((day) => {
-                        if(
-                            !day.classList.contains("prev-date") && 
+                        if (
+                            !day.classList.contains("prev-date") &&
                             day.innerHTML === e.target.innerHTML
-                        ){
-                            day.classList.add("active");
-                        }
-                    });
-                }, 100);
-            } 
-            //se o dia do proximo mes for clicado, mude para o proximo mes
-            else if(e.target.classList.contains("next-date")){
-                nextMonth();
-
-                //adicionar classe ativa ao dia correto apos mudar de mes
-                setTimeout(() => {
-                    //selecionar todos os dias atuais
-                    const days = document.querySelectorAll(".day");
-                    days.forEach((day) => {
-                        if(
-                            !day.classList.contains("next-date") && 
-                            day.innerHTML === e.target.innerHTML
-                        ){
+                        ) {
                             day.classList.add("active");
                         }
                     });
                 }, 100);
             }
-            //adicionar classe ativa ao dia clicado
+            // se o dia do proximo mes for clicado, mude para o proximo mes
+            else if (e.target.classList.contains("next-date")) {
+                nextMonth();
+
+                // adicionar classe ativa ao dia correto apos mudar de mes
+                setTimeout(() => {
+                    // selecionar todos os dias atuais
+                    const days = document.querySelectorAll(".day");
+                    days.forEach((day) => {
+                        if (
+                            !day.classList.contains("next-date") &&
+                            day.innerHTML === e.target.innerHTML
+                        ) {
+                            day.classList.add("active");
+                        }
+                    });
+                }, 100);
+            }
+            // adicionar classe ativa ao dia clicado
             else {
                 e.target.classList.add("active");
             }
+
+            // Gerar horários disponíveis ao clicar no dia
+            generateAvailableTimes(e.target.innerHTML);
         });
     });
 }
 
-//funcao para obter dia ativo:
-function getActiveDay(date){
+// função para obter dia ativo:
+function getActiveDay(date) {
     const day = new Date(year, month, date);
     const dayName = daysOfWeek[day.getDay()];
     eventDay.innerHTML = dayName;
     eventDate.innerHTML = date + " " + months[month] + " " + year;
 }
 
-//funcao para atualizar o evento quando outro dia for clicado
-function updateEvents(date){
+// função para atualizar o evento quando outro dia for clicado
+function updateEvents(date) {
     let events = "";
     eventsArr.forEach((event) => {
-        if(
+        if (
             date === event.day &&
             month + 1 === event.month &&
             year === event.year
-        ){
+        ) {
             event.events.forEach((event) => {
                 events += `
                 <div class="event">
@@ -436,8 +428,8 @@ function updateEvents(date){
         }
     });
 
-    //if -> evento não encontrado
-    if(events === ""){
+    // if -> evento não encontrado
+    if (events === "") {
         events = `<div class="no-event">
             <h3>Sem agendamentos</h3>
         </div>`;
@@ -446,52 +438,111 @@ function updateEvents(date){
     eventsContainer.innerHTML = events;
 }
 
-//função para remover o evento ao clicar
+// função para gerar horários disponíveis
+function generateAvailableTimes(day) {
+    let times = "";
+    let startTime = 8; // 8:00 AM
+    let endTime = 20; // 8:00 PM
+
+    for (let i = startTime; i < endTime; i += 1.5) {
+        let hour = Math.floor(i);
+        let minutes = (i % 1) * 60;
+        let timeStr = `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        times += `
+        <div class="event available" data-time="${timeStr}">
+            <div class="title">
+                <i class="fas fa-circle"></i>
+                <h3 class="event-title">Disponível</h3>
+            </div>
+            <div class="event-time">
+                <span class="event-time">${timeStr}</span>
+            </div>
+        </div>
+        `;
+    }
+
+    eventsContainer.innerHTML = times;
+    addTimeClickListener();
+}
+
+// função para adicionar eventos de clique nos horários disponíveis
+function addTimeClickListener() {
+    const availableTimes = document.querySelectorAll(".event.available");
+    availableTimes.forEach((time) => {
+        time.addEventListener("click", (e) => {
+            const selectedTime = e.currentTarget.getAttribute("data-time");
+            addEventFrom.value = selectedTime;
+            const duration = cart[0].duration; // Exemplo: pegando a duração do primeiro item do carrinho
+            addEventTo.value = calculateEndTime(selectedTime, duration);
+            addEventContainer.classList.add("active");
+        });
+    });
+}
+
+// função para remover o evento ao clicar
 eventsContainer.addEventListener("click", (e) => {
-    if(e.target.classList.contains("event")){
+    if (e.target.classList.contains("event") && !e.target.classList.contains("available")) {
         const eventTitle = e.target.querySelector(".event-title").innerHTML;
         eventsArr.forEach((event) => {
-            if(
+            if (
                 event.day === activeDay &&
                 event.month === month + 1 &&
                 event.year === year
-            ){
+            ) {
                 event.events.forEach((item, index) => {
-                    if(item.title === eventTitle){
+                    if (item.title === eventTitle) {
                         event.events.splice(index, 1);
                     }
                 });
 
-                //if -> nenhum evento restante no dia, remova o dia inteiro
-                if(event.events.length === 0){
+                // if -> nenhum evento restante no dia, remova o dia inteiro
+                if (event.events.length === 0) {
                     eventsArr.splice(eventsArr.indexOf(event), 1);
 
-                    //remover classe de evento se nao houver eventos
+                    // remover classe de evento se nao houver eventos
                     const activeDayEl = document.querySelector(".day.active");
-                    if(activeDayEl.classList.contains("event")){
+                    if (activeDayEl.classList.contains("event")) {
                         activeDayEl.classList.remove("event");
                     }
                 }
             }
         });
-        //atualizar eventos apos a remoção
+        // atualizar eventos apos a remoção
         updateEvents(activeDay);
 
-        //atualizar no localStorage
+        // atualizar no localStorage
         localStorage.setItem("events", JSON.stringify(eventsArr));
     }
 });
 
-//função para armazenar eventos no localStorage
+// função para armazenar eventos no localStorage
 function getEvents() {
-    if(localStorage.getItem("events") === null){
+    if (localStorage.getItem("events") === null) {
         return;
     }
     eventsArr = JSON.parse(localStorage.getItem("events"));
 }
 
+// Fechar o modal de confirmação
+closeModalBtn.addEventListener("click", () => {
+    successModal.style.display = "none";
+});
+
+// Fechar o modal se clicar fora dele
+window.addEventListener("click", (e) => {
+    if (e.target === successModal) {
+        successModal.style.display = "none";
+    }
+});
 
 
+///////////////////////////////////////////////////////////////////////
+//Javascript de detalhar 
+
+
+// Chamar a função para buscar os eventos quando a página carregar
+document.addEventListener("DOMContentLoaded", fetchEventsFromServer);
+//////////////////////////////////////////////////////////////////////
 // Javascrip de Produtos 
 
 function openModal(type) {
@@ -809,4 +860,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 ///////////////////////////////////////////
+document.addEventListener('DOMContentLoaded', function() {
+    // Delegação para abrir modais
+    document.body.addEventListener('click', function(event) {
+        if (event.target.matches('.open-modal-btn')) {
+            const modalId = event.target.getAttribute('data-modal-id');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+        } else if (event.target.matches('.close') || event.target.matches('.modal-close-btn')) {
+            const modal = event.target.closest('.modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+    });
 
+    // Manipulação de cliques nos botões de navegação do calendário
+    document.querySelector('.prev').addEventListener('click', prevMonth);
+    document.querySelector('.next').addEventListener('click', nextmsMonth);
+
+    // Adicionar serviços dinamicamente
+    fetchServicesAndRender();
+});
+
+function fetchServicesAndMsgRender() {
+    fetch('fetch_services.php')
+    .then(response => response.json())
+    .then(services => renderServices(services))
+    .catch(error => console.error('Error loading the services:', error));
+}
+
+function renderServices(services) {
+    const formContainer = document.getElementById('gel-form');
+    services.forEach(service => {
+        const div = document.createElement('div');
+        div.className = 'mb-4';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = service.id;
+        checkbox.dataset.price = service.custo_servico;
+        checkbox.dataset.duration = service.tempo_medio;
+        const label = document.createElement('label');
+        label.htmlFor = service.id;
+        label.textContent = `${service.nome_servico} - ${service.tempo_medio} - R$${service.custo_servico}`;
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        formContainer.appendChild(div);
+    });
+}
