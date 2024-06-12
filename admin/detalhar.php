@@ -14,17 +14,6 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 
-    <!-- FullCalendar -->
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css' rel='stylesheet' />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-
-    <style>
-        #calendar {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-    </style>
 
 </head>
 
@@ -63,8 +52,8 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Tela de Login:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
+                        <h6 class="collapse-header">Gerenciamento Usuários</h6>
+                        <a class="collapse-item" href="detalhar.php">Login</a>
                         <a class="collapse-item" href="register.html">Registro</a>
                         <a class="collapse-item" href="forgot-password.html">Esqueci a senha</a>
                         <div class="collapse-divider"></div>
@@ -97,6 +86,8 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
+           
+
         </ul>
         <!-- End of Sidebar -->
 
@@ -107,6 +98,7 @@
             <div id="content">
 
                 <!-- Topbar -->
+             <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -240,7 +232,7 @@
                                     </div>
                                     <div>
                                         <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to você?</div>
+                                            would you like them sent to you?</div>
                                         <div class="small text-gray-500">Jae Chun · 1d</div>
                                     </div>
                                 </a>
@@ -279,7 +271,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Joelma Alpino</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -308,18 +301,54 @@
 
                 </nav>
                 <!-- End of Topbar -->
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Calendário</h1>
-                    
-                    <!-- Calendar -->
-                    <div id="calendar"></div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Detalhes do Agendamento</h1>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Detalhes do Agendamento -->
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Informações do Cliente</h6>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Código do Cliente:</strong> <span id="clienteCodigo"></span></p>
+                                    <p><strong>Nome do Cliente:</strong> <span id="clienteNome"></span></p>
+                                    <p><strong>Data:</strong> <span id="dataAgendamento"></span></p>
+                                    <p><strong>Hora Início:</strong> <span id="horaInicio"></span></p>
+                                    <p><strong>Hora Término:</strong> <span id="horaTermino"></span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Serviços Agendados -->
+                        <div class="col-lg-12">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Serviços Agendados</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul id="servicosList" class="list-group">
+                                        <!-- Serviços serão adicionados aqui -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Content Row -->
 
                 </div>
-                <!-- End of Page Content -->
+                <!-- End Page Content -->
 
             </div>
             <!-- End of Main Content -->
@@ -346,8 +375,7 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -375,20 +403,39 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- FullCalendar JavaScript -->
+    <!-- Custom JavaScript para exibir dados fictícios -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                editable: true,
-                selectable: true,
-                events: []
+            // Dados fictícios
+            const agendamento = {
+                cod_usuario: 123,
+                cliente_nome: "Maria Silva",
+                data_agendamento: "2024-06-01",
+                hora_inicio: "10:00",
+                hora_termino: "12:00",
+                servicos: [
+                    { nome_servico: "Manutenção de até 21 dias", custo_servico: 90 },
+                    { nome_servico: "Alongamento em Gel", custo_servico: 200 }
+                ]
+            };
+
+            // Preencher os dados do cliente
+            document.getElementById('clienteCodigo').textContent = agendamento.cod_usuario;
+            document.getElementById('clienteNome').textContent = agendamento.cliente_nome;
+            document.getElementById('dataAgendamento').textContent = agendamento.data_agendamento;
+            document.getElementById('horaInicio').textContent = agendamento.hora_inicio;
+            document.getElementById('horaTermino').textContent = agendamento.hora_termino;
+
+            // Preencher a lista de serviços
+            const servicosList = document.getElementById('servicosList');
+            agendamento.servicos.forEach(servico => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `<strong>Serviço:</strong> ${servico.nome_servico}<br><strong>Custo:</strong> R$${servico.custo_servico}`;
+                servicosList.appendChild(li);
             });
-            calendar.render();
         });
     </script>
-
 </body>
 
 </html>
