@@ -1,5 +1,4 @@
 <?php
-include 'config.php'; // Inclui sua conexão com o banco de dados
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cod_usuario = $_POST['cod_usuario'];
@@ -261,7 +260,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 12px;
             height: 97%;
             border-radius: 0 5px 5px 0;
-            background-color: #d3d5d6d;
+            /* background-color: #d3d5d6d; */
             transform: translateY(-50%);
         }
         .calendar::before {
@@ -653,7 +652,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             opacity: 0.5;
             border-radius: 50%;
             background-color: transparent;
-            cursor: pointer.
+            cursor: pointer;
         }
         .add-event:hover {
             opacity: 1;
@@ -1003,10 +1002,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="md:w-1/2 flex justify-center">
                 <div class="relative">
                     <div class="background-overlay">
-                        <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
+                        <img src="http://localhost/byteslab/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
                     </div>
                     <div class="custom-arch"></div>
-                    <img src="http://localhost/byteslab/site/images/unhasAmor.png" alt="Unhas" class="image-overlap">
+                    <img src="http://localhost/byteslab/byteslab/site/images/unhasAmor.png" alt="Unhas" class="image-overlap">
                 </div>
             </div>
             </div>
@@ -1016,17 +1015,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <section style="height: 500px;" class=" bg-white shadow-md p-8 mb-150">
             <div class="flex flex-col md:flex-row justify-around items-center">
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
-                    <img src="http://localhost/byteslab/site/images/cuidadosunhas.png" alt="Cuidados com sua unha" class="w-full h-32 object-cover mb-4">
+                    <img src="http://localhost/byteslab/byteslab/site/images/cuidadosunhas.png" alt="Cuidados com sua unha" class="w-full h-32 object-cover mb-4">
                     <h3 class="text-xl font-semibold text-cinza mb-2">Cuidados com sua unha</h3>
                     <p class="text-gray-700 text-center">Tratamentos personalizados para fortalecer e revitalizar suas unhas.</p>
                 </div>
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
-                    <img src="http://localhost/byteslab/site/images/nail-art.png" alt="Nail Art" class="w-full h-32 object-cover mb-4">
+                    <img src="http://localhost/byteslab/byteslab/site/images/nail-art.png" alt="Nail Art" class="w-full h-32 object-cover mb-4">
                     <h3 class="text-xl font-semibold text-cinza mb-2">Nail Art</h3>
                     <p class="text-gray-700 text-center">Transforme suas unhas em obras de arte com designs únicos e criativos.</p>
                 </div>
                 <div class="service-card w-full md:w-1/3 flex flex-col items-center">
-                    <img src="http://localhost/byteslab/site/images/extensao-fibra.png" alt="Extensões Gel & Fibra de Vidro" class="w-full h-32 object-cover mb-4">
+                    <img src="http://localhost/byteslab/byteslab/site/images/extensao-fibra.png" alt="Extensões Gel & Fibra de Vidro" class="w-full h-32 object-cover mb-4">
                     <h3 class="text-xl font-semibold text-cinza mb-2">Extensões Gel & Fibra de Vidro</h3>
                     <p class="text-gray-700 text-center">Unhas longas e elegantes com extensões duráveis e acabamento natural.</p>
                 </div>
@@ -1036,18 +1035,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Services Section -->
         <section style="height: 500px;" class="new-section mb-150">
             <div class="background-overlay">
-                <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
-                <img src="http://localhost/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
+                <img src="http://localhost/byteslab/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
+                <img src="http://localhost/byteslab/byteslab/site/images/brilhos.png" alt="Brilhos Dourados" class="background-image">
             </div>
             <div class="card" onclick="openModal('gel')">
-                <img src="http://localhost/byteslab/site/images/unhasGel.jpeg" alt="Unhas em Gel" class="fit-image">
+                <img src="http://localhost/byteslab/byteslab/site/images/unhasGel.jpeg" alt="Unhas em Gel" class="fit-image">
                 <div class="card-text">
                     <span class="outlined-text">UNHAS EM GEL</span>
                     <br>TABELA DE VALORES
                 </div>
             </div>
             <div class="card" onclick="openModal('tradicional')">
-                <img src="http://localhost/byteslab/site/images/unhasTradicionais.jpeg" alt="Unhas Tradicionais" class="fit-image">
+                <img src="http://localhost/byteslab/byteslab/site/images/unhasTradicionais.jpeg" alt="Unhas Tradicionais" class="fit-image">
                 <div class="card-text">
                     <span class="outlined-text">UNHAS TRADICIONAIS</span>
                     <br>TABELA DE VALORES
@@ -1065,8 +1064,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="checkbox" id="francesinha" data-duration="15" data-price="20" class="mr-2">
                         <label for="francesinha">Francesinha Mão - 15min - R$20</label>
                     </div>
-<<<<<<< Updated upstream
-=======
                     <div class="mb-4">
                         <input type="checkbox" id="aplicacao-alongamento" data-duration="150" data-price="200" class="mr-2">
                         <label for="aplicacao-alongamento">Alongamento em Gel - 2h30 - R$200</label>
@@ -1112,7 +1109,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="nail-art">Nail Art – 20min - R$32</label>
                     </div>
             
->>>>>>> Stashed changes
                     <!-- Adicione mais serviços conforme necessário -->
                 </form>
                 <div class="mt-6">
@@ -1131,6 +1127,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2 class="text-2xl font-semibold mb-4">Unhas Tradicionais - Tabela de Valores</h2>
                 <form id="tradicional-form">
                     <div class="mb-4">
+                        <input type="checkbox" id="maos" data-duration="90" data-price="39" class="mr-2">
+                        <label for="maos">Mãos – 1h30 - R$39</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="pes" data-duration="60" data-price="42" class="mr-2">
+                        <label for="pres">Pés – 1h - R$42</label>
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" id="francesinha-PeMaos" data-duration="15" data-price="12" class="mr-2">
+                        <label for="francesinha-PeMaos">Francesinha Pés/Mãos – 15min cada - R$12</label>
+                    </div>
+                    <div class="mb-4">
                         <input type="checkbox" id="manutencao-21d" data-duration="120" data-price="90" class="mr-2">
                         <label for="manutencao-21d">Manutenção de até 21 dias – 2h - R$90</label>
                     </div>
@@ -1138,8 +1146,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="checkbox" id="manutencao-apos-21d" data-duration="150" data-price="110" class="mr-2">
                         <label for="manutencao-apos-21d">Manutenção Após 21 dias – 2h30 - R$110</label>
                     </div>
-<<<<<<< Updated upstream
-=======
                     <div class="mb-4">
                         <input type="checkbox" id="manutencao-apos-21d" data-duration="150" data-price="110" class="mr-2">
                         <label for="manutencao-apos-21d">Manutenção Após 50 dias – 2h30 - R$200</label>
@@ -1149,7 +1155,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="checkbox" id="encurtarAlongamento-Banho" data-duration="15" data-price="15" class="mr-2">
                         <label for="encurtarAlongamento-Banho">Encurtar Alongamento ou Banho Gel no dia de Unha Natural – 15min - R$15</label>
                     </div>
->>>>>>> Stashed changes
                     <!-- Adicione mais serviços conforme necessário -->
                 </form>
                 <div class="mt-6">
@@ -1277,22 +1282,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <section class="products-section mb-150">
             <h2>NOSSOS PRODUTOS ESPECIALIZADOS</h2>
             <div class="product-card">
-                <img src="http://localhost/byteslab/site/images/esmalte-base-coat.png" alt="Base Coat">
+                <img src="http://localhost/byteslab/byteslab/site/images/esmalte-base-coat.png" alt="Base Coat">
                 <h3>Base Coat</h3>
                 <p>Film shadow / No.5 oz</p>
             </div>
             <div class="product-card">
-                <img src="http://localhost/byteslab/site/images/esmalte-gek-polish.png" alt="Gel Polish">
+                <img src="http://localhost/byteslab/byteslab/site/images/esmalte-gek-polish.png" alt="Gel Polish">
                 <h3>Gel Polish</h3>
                 <p>Sorbet fine / No.5 oz</p>
             </div>
             <div class="product-card">
-                <img src="http://localhost/byteslab/site/images/esmalte-top-coat.png" alt="Top Coat">
+                <img src="http://localhost/byteslab/byteslab/site/images/esmalte-top-coat.png" alt="Top Coat">
                 <h3>Top Coat</h3>
                 <p>Summer mirage / No.5 oz</p>
             </div>
             <div class="product-card">
-                <img src="http://localhost/byteslab/site/images/esmalte-matte.png" alt="Matte Polish">
+                <img src="http://localhost/byteslab/byteslab/site/images/esmalte-matte.png" alt="Matte Polish">
                 <h3>Matte Polish</h3>
                 <p>Blue Paletts / No.5 oz</p>
             </div>
